@@ -1,4 +1,5 @@
 # m30pm .gitignore
 build/
+.gradle/
 node_modules/
 .logs/
