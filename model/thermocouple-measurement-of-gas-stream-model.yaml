@@ -30,5 +30,5 @@ constants:
     unit: kilogram / (cubic meter)
   - name: h
     description: convection coefficient
-    value: 8500
+    value: 400
     unit: watt / (square meter kelvin)
