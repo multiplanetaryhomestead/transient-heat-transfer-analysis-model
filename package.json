@@ -18,10 +18,11 @@
     "loggingLevel": "error"
   },
   "scripts": {
-    "build": "npm run clean && npm run createBuildDir && npm run buildModel && npm run buildView;",
+    "build": "npm run clean && npm run buildSchema && npm run buildModel && npm run validateModel && npm run buildView;",
     "clean": "rm -rf build/",
-    "createBuildDir": "mkdir build/",
+    "buildSchema": "./gradlew build",
     "buildModel": "yq -o=json model/thermocouple-measurement-of-gas-stream-model.yaml > build/thermocouple-measurement-of-gas-stream-model.json",
+    "validateModel": "linkml-validate -s build/schema/transient-conductive-heat-transfer-schema.yaml build/thermocouple-measurement-of-gas-stream-model.json",
     "buildView": "nunjucks -d build/thermocouple-measurement-of-gas-stream-model.json views/lumped-capacitance-analysis/thermocouple-measurement-of-gas-stream.py.njk > build/thermocouple-measurement-of-gas-stream.py",
     "help": "nunjucks --help"
   }
