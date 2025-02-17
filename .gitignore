@@ -1,4 +1,4 @@
 # m30pm .gitignore
-dist/
+build/
 node_modules/
 .logs/
