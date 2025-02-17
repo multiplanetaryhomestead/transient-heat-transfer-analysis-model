@@ -2,15 +2,15 @@ parameters:
   - name: T_inf
     description: Temperature of gas stream
     value: 200
-    unit: degrees C
+    unit: degC
   - name: T_i
     description: Initial temperature of thermocouple junction
     value: 25
-    unit: degrees C
+    unit: degC
   - name: Tf
     description: Final temperature of thermocouple junction
     value: 199
-    unit: degrees C
+    unit: degC
   - name: τ_t
     description: Thermal time constant
     value: 1
