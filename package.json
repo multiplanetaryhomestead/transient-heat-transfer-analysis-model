@@ -9,9 +9,20 @@
     "./packages/*",
     "./packages/@*/*"
   ],
+  "dependencies": {
+    "@rse/nunjucks-cli": "1.5.3"
+  },
   "m30pm": {
     "versionControlTool": "git",
     "buildTool": "gradle",
     "loggingLevel": "error"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run createBuildDir && npm run buildModel && npm run buildView;",
+    "clean": "rm -rf build/",
+    "createBuildDir": "mkdir build/",
+    "buildModel": "yq -o=json model/thermocouple-measurement-of-gas-stream-model.yaml > build/thermocouple-measurement-of-gas-stream-model.json",
+    "buildView": "nunjucks -d build/thermocouple-measurement-of-gas-stream-model.json views/lumped-capacitance-analysis/thermocouple-measurement-of-gas-stream.py.njk > build/thermocouple-measurement-of-gas-stream.py",
+    "help": "nunjucks --help"
   }
 }
