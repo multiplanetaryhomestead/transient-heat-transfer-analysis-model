@@ -25,6 +25,7 @@
     "validateModel": "linkml-validate -s build/schema/transient-conductive-heat-transfer-schema.yaml build/thermocouple-measurement-of-gas-stream-model.json",
     "buildView": "nunjucks -d build/thermocouple-measurement-of-gas-stream-model.json views/lumped-capacitance-analysis/thermocouple-measurement-of-gas-stream.py.njk > build/thermocouple-measurement-of-gas-stream.py",
     "buildReadme": "nunjucks -d package.json views/README.md.njk > README.md",
+    "analysis": "python build/thermocouple-measurement-of-gas-stream.py",
     "help": "nunjucks --help"
   }
 }
