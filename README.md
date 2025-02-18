@@ -1,3 +1,3 @@
 # Project README File
 
-TBD from template.
+Demo m30ml project for conducting a transient heat transfer analysis
