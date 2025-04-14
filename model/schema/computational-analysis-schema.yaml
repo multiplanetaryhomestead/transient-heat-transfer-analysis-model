@@ -1,0 +1,111 @@
+id: https://w3id.org/linkml/examples/personinfo
+name: computational-analysis-schema
+title: Computational Analysis Schema
+description: |-
+  LinkML schema definition for modeling a computational analysis
+prefixes:
+  linkml: https://w3id.org/linkml/
+imports:
+  - linkml:types
+default_range: string
+
+classes:
+  Quantity:
+    description: :-
+      A quantity used to describe a parameter or constant 
+    slots:
+      - name 
+      - description 
+      - value 
+      - unit 
+
+  Parameter:
+    is_a: Quantity
+    description: >-
+      A parameter used for conducting a computational analysis.
+
+  Constant:
+    is_a: Quantity
+    description: >-
+      A parameter used for conducting a computational analysis.
+
+  Function:
+    description: >-
+      Mathematical Equation that describes a variable as an expression of one or more inputs (independent variables) in a valid unit of measurement
+    slots:
+      - name
+      - variable
+      - expression
+      - unit
+
+  Container:
+    tree_root: true
+    slots:
+    - parameters
+    - constants
+    - analysis
+    - problem_statement
+    - schematic
+    - assumptions
+    - comments
+
+slots:
+  name:
+    required: true
+    description: :-
+      A name of a quantity, used as a variable or constant
+    close_mappings:
+      - schema:name
+  description:
+    required: true
+    description: :-
+      A fully descriptive name of a quantity
+    close_mappings:
+      - schema:description
+  value:
+    required: true
+    description: :-
+      A numeric scalar integer or float of the quantity
+    range: integer
+  unit:
+    description: :-
+      Unit of measure of the quantity
+  variable:
+    required: true
+    description: :-
+      Mathematical variable used to represent the dependent variable of the function
+  expression:
+    required: true
+    description: :-
+      Mathematical expression describing the function
+  parameters:
+    description:
+      List of parameters used for conducting a computational analysis
+    multivalued: true
+    inlined_as_list: true
+    range: Parameter
+  constants:
+    description:
+      List of constants used for conducting a computational analysis
+    multivalued: true
+    inlined_as_list: true
+    range: Constant
+  analysis:
+    description:
+      Ordered list of functions used for conducting a computational analysis
+    multivalued: true
+    inlined_as_list: true
+    range: Function
+  problem_statement:
+    description:
+      Paragraph description of the problem
+  schematic:
+    description:
+      Schematic description of the problem
+  assumptions:
+    description:
+      Axioms assumed to be true for the scope of the analysis
+  comments:
+    description:
+      Comments on analysis
+

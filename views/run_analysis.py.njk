@@ -1,0 +1,79 @@
+#!/usr/bin/env python
+#
+# (View definition for)
+# Example transient conductive heat transfer analysis
+# for a thermocouple measurement of a gas stream
+# using lumped capacitance method.
+#
+# References:
+# - Fundamentals of Heat and Mass Transfer, 6e, p.261-263
+#
+
+from math import pi, log
+from pint import UnitRegistry
+
+u = UnitRegistry(autoconvert_offset_to_baseunit = True)
+
+## Parameters
+
+{% for parameter in parameters %}
+### {{ parameter.description }}
+{{ parameter.name }} = {{ parameter.value }} * u('{{ parameter.unit }}')
+{% endfor %}
+
+## Constants
+
+{% for constant in constants %}
+### {{ constant.description }}
+{{ constant.name }} = {{ constant.value }} * u('{{ constant.unit }}')
+{% endfor %}
+
+## Problem statements
+
+problem_statement = f"""
+{{ problem_statement }}
+"""
+
+print("== Problem Statement ==")
+print(problem_statement)
+
+## Assumptions
+
+assumptions = f"""
+{{ assumptions }}
+"""
+
+print("== Assumptions ==")
+print(assumptions)
+
+## Schematic
+
+schematic = f"""
+{{ schematic }}
+"""
+
+print("== Schematic ==")
+print(schematic)
+
+## Analysis
+
+print("== Analysis ==")
+print("")
+
+{% for function in analysis %}
+print("{{ function.name }}")
+print("")
+{{ function.variable }} = {{ function.expression }}
+{{ function.variable }}.ito('{{ function.unit }}')
+print("{{ function.variable }} = {{ function.expression }} = {0}".format({{ function.variable }}))
+print("")
+{% endfor %}
+
+## Comments
+
+comments = f"""
+{{ comments }}
+"""
+
+print("== Comments ==")
+print(comments)

@@ -11,7 +11,7 @@ plugins {
     id 'base'
 }
 
-def schemaFileName = "transient-conductive-heat-transfer-schema.yaml"
+def schemaFileName = "computational-analysis-schema.yaml"
 def src = "$projectDir/model/schema"
 def schemaOutDir = "schema"
 def schemaBuildDir = "$buildDir/$schemaOutDir"
