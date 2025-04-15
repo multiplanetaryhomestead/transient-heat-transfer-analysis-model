@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+#
+# (View definition for)
+# Example transient conductive heat transfer analysis
+# for a thermocouple measurement of a gas stream
+# using lumped capacitance method.
+#
+# References:
+# - Fundamentals of Heat and Mass Transfer, 6e, p.261-263
+#
+
+from math import pi, log
+from pint import UnitRegistry
+import json
+
+u = UnitRegistry(autoconvert_offset_to_baseunit = True)
+
+## Parameters
+
+{% for parameter in parameters %}
+### {{ parameter.description }}
+{{ parameter.variable }} = {{ parameter.value }} * u('{{ parameter.unit }}')
+{% endfor %}
+
+## Constants
+
+{% for constant in constants %}
+### {{ constant.description }}
+{{ constant.variable }} = {{ constant.value }} * u('{{ constant.unit }}')
+{% endfor %}
+
+name = f"""{{ name }}"""
+description = f"""{{ description }}"""
+problem_statement = f"""{{ problem_statement }}"""
+assumptions = f"""{{ assumptions }}"""
+schematic = f"""{{ schematic }}"""
+comments = f"""{{ comments }}"""
+
+analysis_results = {
+"name": name,
+"description": description,
+"problem_statement": problem_statement,
+"assumptions": assumptions,
+"schematic": schematic,
+"results": [],
+"comments": comments
+}
+
+{% for function in analysis %}
+{{ function.variable }} = {{ function.expression }}
+{{ function.variable }}.ito('{{ function.unit }}')
+function_list_item = {
+    "description": "",
+    "computation": "",
+}
+description = "{{ function.description }}"
+computation = "{{ function.variable }} = {{ function.expression }} = {0}".format({{ function.variable }})
+function_list_item["description"] = description
+function_list_item["computation"] = computation
+analysis_results["results"].append(function_list_item)
+{% endfor %}
+
+print(json.dumps(analysis_results, indent=2))
+

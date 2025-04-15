@@ -1,65 +1,69 @@
+name: thermocouple-measurement-of-gas-stream-model-using-lumped-capacitance-method
+description: Thermocouple Measurement of Gas Stream Model using Lumped Capacitance Method
 parameters:
-  - name: T_inf
+  - variable: T_inf
     description: Temperature of gas stream
     value: 200
     unit: degC
-  - name: T_i
+  - variable: T_i
     description: Initial temperature of thermocouple junction
     value: 25
     unit: degC
-  - name: Tf
+  - variable: Tf
     description: Final temperature of thermocouple junction
     value: 199
     unit: degC
-  - name: τ_t
+  - variable: τ_t
     description: Thermal time constant
     value: 1
     unit: seconds
 constants:
-  - name: k
+  - variable: k
     description: thermal conductivity of thermocouple junction
     value: 20
     unit: watt / (meter kelvin)
-  - name: c
+  - variable: c
     description: specific heat of thermocouple junction
     value: 400
     unit: joule / (kilogram kelvin)
-  - name: ρ
+  - variable: ρ
     description: density of thermocouple junction
     value: 8500
     unit: kilogram / (cubic meter)
-  - name: h
+  - variable: h
     description: convection coefficient
     value: 400
     unit: watt / (square meter kelvin)
 analysis:
 ### required thermojunction diameter needed to reach 1s thermal time constant
-  - name: Thermocouple junction diameter
+  - description: Thermocouple junction diameter
     variable: D
     expression: "6 * h * τ_t / ( ρ * c )"
     unit: "millimeters"
-  - name: Thermocouple junction radius
+  - description: Thermocouple junction radius
     variable: r
     expression: "D / 2"
     unit: "millimeters"
-  - name: Characteristic length
+  - description: Characteristic length
     variable: "L"
     expression: "r / 3"
     unit: "millimeters"
-  - name: Biot number
+  - description: Biot number
     variable: "Bi"
     expression: "h * L / k"
     unit: "dimensionless"
-  - name: time equation for lumped capacitance model
+  - description: time equation for lumped capacitance model
     variable: "t"
     expression: "-τ_t * log((Tf - T_inf) / (T_i - T_inf))"
     unit: "seconds"
 problem_statement: "A thermocouple junction is used for temperature measurement in a gas stream. Determine 1) The junction diameter needed for the thermocouple to have a time constant of 1 second 2) How long it will take for the junction to reach {round(Tf, 3)} If the junction is at {round(T_i, 3)} and placed in a gas stream that is at {round(T_inf, 3)}."
 schematic: |
-  T_i = {T_i}
-  k = {k}
-  c = {c}
-  p = {ρ}
+  * T_i = {T_i}
+  * k = {k}
+  * c = {c}
+  * p = {ρ}
+
+  ```
          ---------- 
         /          \\          T_inf = {T_inf}
        /            \\         h = {round(h, 3)}
@@ -68,6 +72,7 @@ schematic: |
        \\            /         ( gas stream )
         \\          /
          ----------
+  ```
 
 assumptions: |
   1. Temperature of junction is uniform at any instant
@@ -75,3 +80,4 @@ assumptions: |
   3. Losses by conduction through the leads are negligible
   4. Constant properties
 comments: lumped capacitance model is valid for Bi < 0.1
+

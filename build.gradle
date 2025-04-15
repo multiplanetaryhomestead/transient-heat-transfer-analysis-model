@@ -12,30 +12,78 @@ plugins {
 }
 
 def schemaFileName = "computational-analysis-schema.yaml"
-def src = "$projectDir/model/schema"
+def schemaSrcDir = "$projectDir/model/schema"
 def schemaOutDir = "schema"
 def schemaBuildDir = "$buildDir/$schemaOutDir"
 def unifiedSchemaPath = "$schemaBuildDir/$schemaFileName"
+def modelSrcFileName = "thermocouple-measurement-of-gas-stream-model.yaml"
+def modelBuildFileName = "model.json"
+def modelSrcDir = "$projectDir/model/examples/lumped-capacitance-method"
+def modelOutDir = "model"
+def modelBuildDir = "$buildDir/$modelOutDir"
+def unifiedModelPath = "$modelBuildDir/$modelBuildFileName"
+def nunjucks = "$projectDir/node_modules/.bin/nunjucks"
+def querySrcFileName = "run_analysis.py.njk"
+def queryBuildFileName = "run_analysis.py"
+def queryResultsFileName = "analysis_results.json"
+def querySrcDir = "$projectDir/views/queries"
+def queryOutDir = "views/queries"
+def queryResultsOutDir = "$queryOutDir/results"
+def queryBuildDir = "$buildDir/$queryOutDir"
+def queryBuildPath = "$queryBuildDir/$queryBuildFileName"
+def queryResultsBuildDir = "$buildDir/$queryResultsOutDir"
+def queryResultsPath = "$queryResultsBuildDir/$queryResultsFileName"
+def reportTemplateFilename = "analysis_report.md.njk"
+def reportFilename = "analysis_report.md"
+def reportTemplateDir = "$projectDir/views"
+def reportTemplatePath = "$reportTemplateDir/$reportTemplateFilename"
+def reportOutDir = "build/views"
+def reportPath = "$reportOutDir/$reportFilename"
 
-tasks.register('buildUnifiedYaml', Exec) {
-    inputs.files(fileTree("$src"))
-        .withPropertyName('sourceFiles')
+tasks.register('buildUnifiedSchema', Exec) {
+    inputs.files(fileTree("$schemaSrcDir"))
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
     outputs.dir(layout.buildDirectory.dir("$schemaOutDir"))
-        .withPropertyName('outputDir')
-    commandLine "bash", "-c", "gen-yaml $src/$schemaFileName --mergeimports > $unifiedSchemaPath"
+    commandLine "bash", "-c", "gen-yaml $schemaSrcDir/$schemaFileName --mergeimports > $unifiedSchemaPath"
 }
 
-tasks.register('cleanupUnifiedYaml', Exec) {
-    dependsOn(buildUnifiedYaml)
-    inputs.files(fileTree("$schemaOutDir"))
-        .withPropertyName('sourceFiles')
-        .withPathSensitivity(PathSensitivity.ABSOLUTE)
-    outputs.dir(layout.buildDirectory.dir("$schemaOutDir"))
-        .withPropertyName('outputDir')
+tasks.register('cleanupUnifiedSchema', Exec) {
+    dependsOn(buildUnifiedSchema)
     commandLine "yq", "-i", "del(.imports)", "$unifiedSchemaPath"
 }
 
-tasks.named("assemble") {
-    dependsOn(cleanupUnifiedYaml)
+tasks.register('buildModel', Exec) {
+    dependsOn(cleanupUnifiedSchema)
+    inputs.files(fileTree("$modelSrcDir"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$modelOutDir"))
+    commandLine "bash", "-c", "yq -o=json $modelSrcDir/$modelSrcFileName > $unifiedModelPath"
 }
+
+tasks.register('validateModel', Exec) {
+    dependsOn(buildModel)
+    commandLine "linkml-validate", "-s", "$unifiedSchemaPath", "$unifiedModelPath"
+}
+
+tasks.register('buildQuery', Exec) {
+    dependsOn(validateModel)
+    inputs.files(fileTree("$querySrcDir"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$queryResultsOutDir"))
+    commandLine "bash", "-c", "npm exec -- nunjucks -d $unifiedModelPath $querySrcDir/$querySrcFileName > $queryBuildPath"
+}
+
+tasks.register('getQueryResults', Exec) {
+    //dependsOn(buildQuery)
+    commandLine "bash", "-c", "python $queryBuildPath > $queryResultsPath"
+}
+
+tasks.register('generateReport', Exec) {
+    dependsOn(getQueryResults)
+    commandLine "bash", "-c", "npm exec -- nunjucks -d $queryResultsPath $reportTemplatePath > $reportPath && cat $reportPath"
+}
+
+tasks.named("assemble") {
+    dependsOn(buildQuery)
+}
+
