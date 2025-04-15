@@ -17,11 +17,18 @@
     "buildTool": "gradle",
     "loggingLevel": "error"
   },
+  "bin": {
+    "nunjucks": "./node_modules/.bin/nunjucks"
+  },
   "scripts": {
     "build": "npm run clean && ./gradlew --offline build",
     "clean": "./gradlew --offline clean",
+    "analysis": "npm run buildAnalysisScript && npm run queryAnalysisResults && npm run generateAnalysisReport && npm run renderAnalysisReport",
+    "buildAnalysisScript": "nunjucks -d build/model/model.json views/queries/run_analysis.py.njk > build/run_analysis.py",
+    "queryAnalysisResults": "python build/run_analysis.py > build/analysis_results.json",
+    "generateAnalysisReport": "nunjucks -d build/analysis_results.json views/analysis_report.md.njk > build/analysis_report.md",
+    "renderAnalysisReport": "cat build/analysis_report.md",
     "buildReadme": "nunjucks -d package.json views/README.md.njk > README.md",
-    "analysis": "python build/views/run_analysis.py",
     "help": "nunjucks --help"
   }
 }

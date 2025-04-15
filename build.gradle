@@ -17,14 +17,14 @@ def schemaOutDir = "schema"
 def schemaBuildDir = "$buildDir/$schemaOutDir"
 def unifiedSchemaPath = "$schemaBuildDir/$schemaFileName"
 def modelSrcFileName = "thermocouple-measurement-of-gas-stream-model.yaml"
-def modelBuildFileName = "thermocouple-measurement-of-gas-stream-model.json"
-def modelSrcDir = "$projectDir/model/examples/lumped-capacitance-analysis"
+def modelBuildFileName = "model.json"
+def modelSrcDir = "$projectDir/model/examples/lumped-capacitance-method"
 def modelOutDir = "model"
 def modelBuildDir = "$buildDir/$modelOutDir"
 def unifiedModelPath = "$modelBuildDir/$modelBuildFileName"
 def viewSrcFileName = "run_analysis.py.njk"
 def viewBuildFileName = "run_analysis.py"
-def viewSrcDir = "$projectDir/views"
+def viewSrcDir = "$projectDir/views/queries"
 def viewOutDir = "views"
 def viewBuildDir = "$buildDir/$viewOutDir"
 def viewBuildPath = "$viewBuildDir/$viewBuildFileName"
@@ -67,17 +67,7 @@ tasks.register('validateModel', Exec) {
     commandLine "linkml-validate", "-s", "$unifiedSchemaPath", "$unifiedModelPath"
 }
 
-tasks.register('buildView', Exec) {
-    dependsOn(validateModel)
-    inputs.files(fileTree("$viewSrcDir"))
-        .withPropertyName('sourceFiles')
-        .withPathSensitivity(PathSensitivity.ABSOLUTE)
-    outputs.dir(layout.buildDirectory.dir("$viewOutDir"))
-        .withPropertyName('outputDir')
-    commandLine "bash", "-c", "node_modules/.bin/nunjucks -d $unifiedModelPath $viewSrcDir/$viewSrcFileName > $viewBuildPath"
-}
-
 tasks.named("assemble") {
-    dependsOn(buildView)
+    dependsOn(validateModel)
 }
 

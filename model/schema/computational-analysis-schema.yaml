@@ -14,8 +14,8 @@ classes:
     description:
       A quantity used to describe a parameter or constant 
     slots:
-      - name 
       - description 
+      - variable
       - value 
       - unit 
 
@@ -33,7 +33,7 @@ classes:
     description:
       Mathematical Equation that describes a variable as an expression of one or more inputs (independent variables) in a valid unit of measurement
     slots:
-      - name
+      - description
       - variable
       - expression
       - unit
@@ -41,6 +41,8 @@ classes:
   Container:
     tree_root: true
     slots:
+    - name
+    - description
     - parameters
     - constants
     - analysis
