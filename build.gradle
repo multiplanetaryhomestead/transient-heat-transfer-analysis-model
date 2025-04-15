@@ -12,22 +12,34 @@ plugins {
 }
 
 def schemaFileName = "computational-analysis-schema.yaml"
-def src = "$projectDir/model/schema"
+def schemaSrcDir = "$projectDir/model/schema"
 def schemaOutDir = "schema"
 def schemaBuildDir = "$buildDir/$schemaOutDir"
 def unifiedSchemaPath = "$schemaBuildDir/$schemaFileName"
+def modelSrcFileName = "thermocouple-measurement-of-gas-stream-model.yaml"
+def modelBuildFileName = "thermocouple-measurement-of-gas-stream-model.json"
+def modelSrcDir = "$projectDir/model/examples/lumped-capacitance-analysis"
+def modelOutDir = "model"
+def modelBuildDir = "$buildDir/$modelOutDir"
+def unifiedModelPath = "$modelBuildDir/$modelBuildFileName"
+def viewSrcFileName = "run_analysis.py.njk"
+def viewBuildFileName = "run_analysis.py"
+def viewSrcDir = "$projectDir/views"
+def viewOutDir = "views"
+def viewBuildDir = "$buildDir/$viewOutDir"
+def viewBuildPath = "$viewBuildDir/$viewBuildFileName"
 
-tasks.register('buildUnifiedYaml', Exec) {
-    inputs.files(fileTree("$src"))
+tasks.register('buildUnifiedSchema', Exec) {
+    inputs.files(fileTree("$schemaSrcDir"))
         .withPropertyName('sourceFiles')
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
     outputs.dir(layout.buildDirectory.dir("$schemaOutDir"))
         .withPropertyName('outputDir')
-    commandLine "bash", "-c", "gen-yaml $src/$schemaFileName --mergeimports > $unifiedSchemaPath"
+    commandLine "bash", "-c", "gen-yaml $schemaSrcDir/$schemaFileName --mergeimports > $unifiedSchemaPath"
 }
 
-tasks.register('cleanupUnifiedYaml', Exec) {
-    dependsOn(buildUnifiedYaml)
+tasks.register('cleanupUnifiedSchema', Exec) {
+    dependsOn(buildUnifiedSchema)
     inputs.files(fileTree("$schemaOutDir"))
         .withPropertyName('sourceFiles')
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
@@ -36,6 +48,36 @@ tasks.register('cleanupUnifiedYaml', Exec) {
     commandLine "yq", "-i", "del(.imports)", "$unifiedSchemaPath"
 }
 
-tasks.named("assemble") {
-    dependsOn(cleanupUnifiedYaml)
+tasks.register('buildModel', Exec) {
+    dependsOn(cleanupUnifiedSchema)
+    inputs.files(fileTree("$modelSrcDir"))
+        .withPropertyName('sourceFiles')
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$modelOutDir"))
+        .withPropertyName('outputDir')
+    commandLine "bash", "-c", "yq -o=json $modelSrcDir/$modelSrcFileName > $unifiedModelPath"
 }
+
+tasks.register('validateModel', Exec) {
+    dependsOn(buildModel)
+    inputs.files(fileTree("$modelOutDir"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$modelOutDir"))
+        .withPropertyName('outputDir')
+    commandLine "linkml-validate", "-s", "$unifiedSchemaPath", "$unifiedModelPath"
+}
+
+tasks.register('buildView', Exec) {
+    dependsOn(validateModel)
+    inputs.files(fileTree("$viewSrcDir"))
+        .withPropertyName('sourceFiles')
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$viewOutDir"))
+        .withPropertyName('outputDir')
+    commandLine "bash", "-c", "node_modules/.bin/nunjucks -d $unifiedModelPath $viewSrcDir/$viewSrcFileName > $viewBuildPath"
+}
+
+tasks.named("assemble") {
+    dependsOn(buildView)
+}
+
