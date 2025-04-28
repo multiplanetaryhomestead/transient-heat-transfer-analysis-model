@@ -13,9 +13,3 @@ npm i
 ```bash
 npm run build
 ```
-
-## Run analysis
-
-```bash
-npm run analysis
-```

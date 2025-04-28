@@ -12,78 +12,148 @@ plugins {
 }
 
 def schemaFileName = "computational-analysis-schema.yaml"
-def schemaSrcDir = "$projectDir/model/schema"
-def schemaOutDir = "schema"
-def schemaBuildDir = "$buildDir/$schemaOutDir"
-def unifiedSchemaPath = "$schemaBuildDir/$schemaFileName"
-def modelSrcFileName = "thermocouple-measurement-of-gas-stream-model.yaml"
+def schemaSrcDirName = "model/schema"
+def schemaSrcDir = "$projectDir/$schemaSrcDirName"
+def schemaBuildDirName = "$schemaSrcDirName"
+def schemaBuildDir = "$buildDir/$schemaBuildDirName"
 def modelBuildFileName = "model.json"
-def modelSrcDir = "$projectDir/model/examples/lumped-capacitance-method"
-def modelOutDir = "model"
-def modelBuildDir = "$buildDir/$modelOutDir"
+def modelSrcDirName = "model/examples"
+def modelSrcDir = "$projectDir/$modelSrcDirName"
+def modelSrcExt = ".yaml"
+def modelBuildDirName = "$modelSrcDirName"
+def modelBuildDir = "$buildDir/$modelBuildDirName"
+def modelBuildExt = ".json"
 def unifiedModelPath = "$modelBuildDir/$modelBuildFileName"
 def nunjucks = "$projectDir/node_modules/.bin/nunjucks"
 def querySrcFileName = "run_analysis.py.njk"
-def queryBuildFileName = "run_analysis.py"
-def queryResultsFileName = "analysis_results.json"
-def querySrcDir = "$projectDir/views/queries"
-def queryOutDir = "views/queries"
-def queryResultsOutDir = "$queryOutDir/results"
-def queryBuildDir = "$buildDir/$queryOutDir"
-def queryBuildPath = "$queryBuildDir/$queryBuildFileName"
-def queryResultsBuildDir = "$buildDir/$queryResultsOutDir"
-def queryResultsPath = "$queryResultsBuildDir/$queryResultsFileName"
-def reportTemplateFilename = "analysis_report.md.njk"
-def reportFilename = "analysis_report.md"
-def reportTemplateDir = "$projectDir/views"
-def reportTemplatePath = "$reportTemplateDir/$reportTemplateFilename"
-def reportOutDir = "build/views"
-def reportPath = "$reportOutDir/$reportFilename"
+def querySrcDirName = "views/queries"
+def querySrcDir = "$projectDir/$querySrcDirName"
+def queryBuildDirName = "$querySrcDirName"
+def queryBuildDir = "$buildDir/$queryBuildDirName"
+def queryBuildExt = ".py"
+def queryResultsDirName = "$querySrcDirName/results"
+def queryResultsDir = "$buildDir/$queryResultsDirName"
+def queryResultsExt = ".json"
+def reportTemplateFileName = "analysis_report.md.njk"
+def reportFileName = "analysis_report.md"
+def reportSrcDirName = "views"
+def reportTemplateDir = "$projectDir/$reportSrcDirName"
+def reportTemplatePath = "$reportTemplateDir/$reportTemplateFileName"
+def reportBuildDirName = "$reportSrcDirName/reports"
+def reportBuildDir = "$buildDir/$reportBuildDirName"
+def reportExt = ".md"
 
-tasks.register('buildUnifiedSchema', Exec) {
+tasks.register('buildUnifiedSchema') {
     inputs.files(fileTree("$schemaSrcDir"))
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
-    outputs.dir(layout.buildDirectory.dir("$schemaOutDir"))
-    commandLine "bash", "-c", "gen-yaml $schemaSrcDir/$schemaFileName --mergeimports > $unifiedSchemaPath"
+    outputs.dir(layout.buildDirectory.dir("$schemaBuildDir"))
+    doLast {
+        fileTree("$schemaSrcDir").matching {
+            include "**/*$modelSrcExt"
+        }.each { file ->
+            exec {
+                commandLine "bash", "-c", "gen-yaml $file --mergeimports > $schemaBuildDir/$file.name"
+            }
+        }
+    }
 }
 
-tasks.register('cleanupUnifiedSchema', Exec) {
+tasks.register('cleanupUnifiedSchema') {
     dependsOn(buildUnifiedSchema)
-    commandLine "yq", "-i", "del(.imports)", "$unifiedSchemaPath"
+    inputs.files(fileTree("$schemaSrcDir"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$schemaBuildDir"))
+    doLast {
+        fileTree("$schemaBuildDir").matching {
+            include "**/*$modelSrcExt"
+        }.each { file ->
+            exec {
+                commandLine "yq", "-i", "del(.imports)", "$schemaBuildDir/$file.name"
+            }
+        }
+    }
 }
 
-tasks.register('buildModel', Exec) {
+tasks.register('buildModel') {
     dependsOn(cleanupUnifiedSchema)
     inputs.files(fileTree("$modelSrcDir"))
-        .withPathSensitivity(PathSensitivity.ABSOLUTE)
-    outputs.dir(layout.buildDirectory.dir("$modelOutDir"))
-    commandLine "bash", "-c", "yq -o=json $modelSrcDir/$modelSrcFileName > $unifiedModelPath"
+    .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$modelBuildDir"))
+    doLast {
+        fileTree("$modelSrcDir").matching {
+            include "**/*$modelSrcExt"
+        }.each { file ->
+            exec {
+                commandLine "bash", "-c", "yq -o=json $file > $modelBuildDir/$file.name$modelBuildExt"
+            }
+        }
+    }
 }
 
-tasks.register('validateModel', Exec) {
+tasks.register('validateModel') {
     dependsOn(buildModel)
-    commandLine "linkml-validate", "-s", "$unifiedSchemaPath", "$unifiedModelPath"
+    inputs.files(fileTree("$modelBuildDir"))
+    .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    doLast {
+        fileTree("$modelBuildDir").matching {
+            include "*$modelBuildExt"
+        }.each { file ->
+            exec {
+                commandLine "linkml-validate", "-s", "$schemaBuildDir/$schemaFileName", "$modelBuildDir/$file.name"
+            }
+        }
+    }
 }
 
-tasks.register('buildQuery', Exec) {
+tasks.register('buildQuery') {
     dependsOn(validateModel)
-    inputs.files(fileTree("$querySrcDir"))
+    inputs.files(fileTree("$modelBuildDir"))
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
-    outputs.dir(layout.buildDirectory.dir("$queryResultsOutDir"))
-    commandLine "bash", "-c", "npm exec -- nunjucks -d $unifiedModelPath $querySrcDir/$querySrcFileName > $queryBuildPath"
+    outputs.dir(layout.buildDirectory.dir("$queryBuildDir"))
+    doLast {
+       fileTree("$modelBuildDir").matching {
+           include "**/*$modelBuildExt"
+       }.each { file ->
+           exec {
+               commandLine "bash", "-c", "npm exec -- nunjucks -d $file $querySrcDir/$querySrcFileName > $queryBuildDir/$file.name$queryBuildExt"
+           }
+       }
+    }
 }
 
-tasks.register('getQueryResults', Exec) {
-    //dependsOn(buildQuery)
-    commandLine "bash", "-c", "python $queryBuildPath > $queryResultsPath"
+tasks.register('getQueryResults') {
+    dependsOn(buildQuery)
+    inputs.files(fileTree("$queryBuildDir"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$queryResultsDir"))
+    doLast {
+        fileTree("$queryBuildDir").matching {
+            include "*$queryBuildExt"
+        }.each { file ->
+           exec {
+                commandLine "bash", "-c", "python $queryBuildDir/$file.name > $queryResultsDir/$file.name$queryResultsExt"
+           }
+       }
+    }
 }
 
-tasks.register('generateReport', Exec) {
+tasks.register('generateReport') {
     dependsOn(getQueryResults)
-    commandLine "bash", "-c", "npm exec -- nunjucks -d $queryResultsPath $reportTemplatePath > $reportPath && cat $reportPath"
+    inputs.files(fileTree("$queryResultsDir"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$reportBuildDir"))
+    doLast {
+        fileTree("$queryResultsDir").matching {
+            include "*$queryResultsExt"
+        }.each { file ->
+            exec {
+                commandLine "bash", "-c", "npm exec -- nunjucks -d $file $reportTemplatePath > $reportBuildDir/$file.name$reportExt && cat $reportBuildDir/$file.name$reportExt"
+            }
+        }
+    }
 }
 
 tasks.named("assemble") {
-    dependsOn(buildQuery)
+    dependsOn(generateReport)
 }
 

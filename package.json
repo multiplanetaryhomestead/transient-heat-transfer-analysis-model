@@ -20,8 +20,7 @@
   "scripts": {
     "build": "npm run clean && ./gradlew --offline build",
     "clean": "./gradlew --offline clean",
-    "analysis": "./gradlew --offline generateReport",
-    "buildReadme": "nunjucks -d package.json views/README.md.njk > README.md",
+    "readme": "nunjucks -d package.json views/README.md.njk > README.md",
     "help": "nunjucks --help"
   }
 }
