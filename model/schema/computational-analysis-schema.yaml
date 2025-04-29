@@ -67,8 +67,8 @@ slots:
   value:
     required: true
     description:
-      A numeric scalar integer or float of the quantity
-    range: integer
+      A numeric scalar float of the quantity
+    range: float
   unit:
     description:
       Unit of measure of the quantity

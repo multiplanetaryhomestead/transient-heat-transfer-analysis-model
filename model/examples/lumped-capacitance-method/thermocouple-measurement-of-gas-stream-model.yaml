@@ -1,38 +1,38 @@
 name: thermocouple-measurement-of-gas-stream-model-using-lumped-capacitance-method
 description: Thermocouple Measurement of Gas Stream Model using Lumped Capacitance Method
 parameters:
-  - variable: T_inf
-    description: Temperature of gas stream
-    value: 200
+  - description: Temperature of gas stream
+    variable: T_inf
+    value: 200.0
     unit: degC
-  - variable: T_i
-    description: Initial temperature of thermocouple junction
-    value: 25
+  - description: Initial temperature of thermocouple junction
+    variable: T_i
+    value: 25.0
     unit: degC
-  - variable: Tf
-    description: Final temperature of thermocouple junction
-    value: 199
+  - description: Final temperature of thermocouple junction
+    variable: Tf
+    value: 199.0
     unit: degC
-  - variable: τ_t
-    description: Thermal time constant
-    value: 1
+  - description: Thermal time constant
+    variable: τ_t
+    value: 1.0
     unit: seconds
 constants:
-  - variable: k
-    description: thermal conductivity of thermocouple junction
-    value: 20
+  - description: thermal conductivity of thermocouple junction
+    variable: k
+    value: 20.0
     unit: watt / (meter kelvin)
-  - variable: c
-    description: specific heat of thermocouple junction
-    value: 400
+  - description: specific heat of thermocouple junction
+    variable: c
+    value: 400.0
     unit: joule / (kilogram kelvin)
-  - variable: ρ
-    description: density of thermocouple junction
-    value: 8500
+  - description: density of thermocouple junction
+    variable: ρ
+    value: 8500.0
     unit: kilogram / (cubic meter)
-  - variable: h
-    description: convection coefficient
-    value: 400
+  - description: convection coefficient
+    variable: h
+    value: 400.0
     unit: watt / (square meter kelvin)
 analysis:
 ### required thermojunction diameter needed to reach 1s thermal time constant
