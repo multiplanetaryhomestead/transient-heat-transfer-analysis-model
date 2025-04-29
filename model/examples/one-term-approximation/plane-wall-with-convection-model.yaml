@@ -1,0 +1,124 @@
+name: plane-wall-with-convection-model
+description: Plane Wall with Convection Model using One-Term Approximation
+parameters:
+  - description: Diameter of pipe
+    variable: D
+    value: 1.0
+    unit: m
+  - description: Thickness of pipe wall
+    variable: L
+    value: 40.0
+    unit: mm
+  - description: Initial temperature of pipe walls
+    variable: T_i
+    value: -20.0
+    unit: degC
+  - description: Temperature of hot oil
+    variable: T_inf
+    value: 60.0
+    unit: degC
+  - description: Convection coefficient
+    variable: h
+    value: 500.0
+    unit: watt / (square meter kelvin)
+  - description: time
+    variable: "t"
+    value: 8.0
+    unit: "minutes"
+constants:
+  - description: Thermal conductivity of steel type AISI 1010 [T ~= 300K]
+    variable: k
+    value: 63.9
+    unit: watt / (meter kelvin)
+  - description: Specific heat of steel type AISI 1010 [T ~= 300K]
+    variable: c
+    value: 434.0
+    unit: joule / (kilogram kelvin)
+  - description: Density of steel type AISI 1010 [T ~= 300K]
+    variable: ρ
+    value: 7832.0
+    unit: kilogram / (cubic meter)
+  - description: Thermal diffusivity
+    variable: α
+    value: 18.8e-6
+    unit: (square meter) / second
+  - description: Zeta_1, Coefficient for Bi = 0.313 used in one-term approximation for transient one-dimensional conduction through a plane wall
+    variable: ζ_1
+    value: 0.531
+    unit: "radians"
+  - description: C_1, Coefficient for Bi = 0.313 used in one-term approximation for transient one-dimensional conduction through a plane wall
+    variable: C_1
+    value: 1.047
+    unit: "dimensionless"
+analysis:
+  - description: Characteristic length
+    variable: "L_c"
+    expression: "L"
+    unit: "millimeters"
+  - description: Biot number
+    variable: "Bi"
+    expression: "h * L_c / k"
+    unit: "dimensionless"
+  - description: Fourier number
+    variable: Fo
+    expression: "α * t / L_c**2"
+    unit: "dimensionless"
+  - description: Dimensionless midplane (x* = 0) temperature after time, t
+    variable: θ_0
+    expression: "C_1 * exp( -ζ_1**2 * Fo )"
+    unit: "dimensionless"
+  - description: T(x=0, t=t); Temperature of exterior pipe surface after time, t
+    variable: T_o
+    expression: "T_inf + θ_0 * (T_i - T_inf)"
+    unit: "degC"
+  - description: Dimensionless surface (x* = 1) temperature after time, t
+    variable: θ
+    expression: "θ_0 * cos( -ζ_1 )"
+    unit: "dimensionless"
+  - description: T(x=L, t=t); Temperature of interior pipe surface after time, t
+    variable: T
+    expression: "T_inf + θ * (T_i - T_inf)"
+    unit: "degC"
+  - description: Heat flux to the wall after time, t
+    variable: q_dot
+    expression: "h * (T - T_inf)"
+    unit: watt / (square meter)
+  - description: Energy transferred to pipe per length after time, t
+    variable: Q_per_l
+    expression: "(1 - sin(ζ_1)/ζ_1 * θ_0) * ρ * c * pi * D * L_c * (T_i - T_inf)"
+    unit: joule / meter
+problem_statement: |
+  Consider a steel pipeline (AISI 1010) that is {D} in diameter and has a wall thickness of {L}.
+  The pipe is heavily insulated on the outside, and before the initiation of flow, the walls of the pipe are at a uniform temperature of {T_i}.
+  With the initiation of flow, hot oil at {T_inf} is pumped through the pipe, creating a convective condition corresponding to {h} at the inner surface of the pipe.
+  1. What are the appropriate Biot and Fourier numbers {t} after the initiation of flow?
+  2. At t = {t}, what is the temperature of the exterior pipe surface covered by the insulation?
+  3. What is the heat flux q_dot'' (W/m^2) to the pipe from the oil at t = {t}?
+  4. How much energy per meter of pipe length has been transferred from the oil to the pipe at t = {t}?
+schematic: |
+  * k = {k}
+  * c = {c}
+  * p = {ρ}
+  * α = {α}
+
+  ```
+                T(x, t = 0) = T_i = {T_i}
+              |                  |
+   T(x = 0, t)|                  |        T_inf = {T_inf}
+              |                  |        h = {h}
+  Insulation  | Steel, AISI 1010 |         ^ ^ ^
+              |                  |         | | |
+              |                  |        ( oil )
+              |                  |
+              |                  |T(x = L = {L}, t)
+
+              |--> x
+  ```
+
+assumptions: |
+  1. Pipe wall can be approximated as plane wall, since thickness is much less than diameter.
+  2. Constant properties.
+  3. Outer surface of pipe is adiabatic.
+comments: |
+  Lumped capacitance model is invalid for Bi > 0.1.
+  However, one-term approximation is valid for Fo > 0.2
