@@ -29,7 +29,7 @@ classes:
     description:
       A parameter used for conducting a computational analysis.
 
-  Function:
+  Computation:
     description:
       Mathematical Equation that describes a variable as an expression of one or more inputs (independent variables) in a valid unit of measurement
     slots:
@@ -75,11 +75,11 @@ slots:
   variable:
     required: true
     description:
-      Mathematical variable used to represent the dependent variable of the function
+      Mathematical variable used to represent a computation
   expression:
     required: true
     description:
-      Mathematical expression describing the function
+      Mathematical expression used to evaluate a computation
   parameters:
     description:
       List of parameters used for conducting a computational analysis
@@ -94,10 +94,10 @@ slots:
     range: Constant
   analysis:
     description:
-      Ordered list of functions used for conducting a computational analysis
+      Ordered list of computations used for conducting a computational analysis
     multivalued: true
     inlined_as_list: true
-    range: Function
+    range: Computation
   problem_statement:
     description:
       Paragraph description of the problem
