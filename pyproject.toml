@@ -1,0 +1,7 @@
+[project]
+name = "transient-heat-transfer-analysis-model"
+version = "0.0.0"
+description = "Demo m30ml project for conducting a transient heat transfer analysis"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
