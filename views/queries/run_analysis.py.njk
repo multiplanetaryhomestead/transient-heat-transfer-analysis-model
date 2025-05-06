@@ -11,6 +11,7 @@
 
 from math import pi, log, exp, cos, sin
 from pint import UnitRegistry
+from scipy.interpolate import interp1d
 import json
 
 u = UnitRegistry(autoconvert_offset_to_baseunit = True)
@@ -46,18 +47,20 @@ analysis_results = {
 "comments": comments
 }
 
-{% for function in analysis %}
-{{ function.variable }} = {{ function.expression }}
-{{ function.variable }}.ito('{{ function.unit }}')
-function_list_item = {
+{% for computation in analysis %}
+{{ computation.variable }} = {{ computation.expression }}
+{% if computation.unit %}
+{{ computation.variable }}.ito('{{ computation.unit }}')
+{% endif %}
+computation_list_item = {
     "description": "",
     "computation": "",
 }
-description = "{{ function.description }}"
-computation = "{{ function.variable }} = {{ function.expression }} = {0}".format({{ function.variable }})
-function_list_item["description"] = description
-function_list_item["computation"] = computation
-analysis_results["results"].append(function_list_item)
+description = "{{ computation.description }}"
+computation = "{{ computation.variable }} = {{ computation.expression }} = {0}".format({{ computation.variable }})
+computation_list_item["description"] = description
+computation_list_item["computation"] = computation
+analysis_results["results"].append(computation_list_item)
 {% endfor %}
 
 print(json.dumps(analysis_results, indent=2))
