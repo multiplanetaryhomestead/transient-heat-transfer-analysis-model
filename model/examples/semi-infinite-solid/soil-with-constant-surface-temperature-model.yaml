@@ -1,0 +1,89 @@
+name: soil-with-constant-surface-temperature-model
+description: Soil with Constant Surface Temperature Model using Semi-Infinite Solid Approximation
+parameters:
+  - description: Initial temperature of soil
+    variable: T_i
+    value: 20.0
+    unit: degC
+  - description: Surface temperature of soil
+    variable: T_s
+    value: -15.0
+    unit: degC
+  - description: time
+    variable: t
+    value: 60.0
+    unit: days
+  - description: Temperature of soil at depth, x_m, after time t
+    variable: T
+    value: 0
+    unit: degC
+constants:
+  - description: Thermal conductivity of soil Table A.3 [T ~= 300K]
+    variable: k
+    value: 0.52
+    unit: watt / (meter kelvin)
+  - description: Specific heat of soil Table A.3 [T ~= 300K]
+    variable: c
+    value: 1840.0
+    unit: joule / (kilogram kelvin)
+  - description: Density of soil Table A.3 [T ~= 300K]
+    variable: ρ
+    value: 2050.0
+    unit: kilogram / (cubic meter)
+  - description: Thermal diffusivity
+    variable: α
+    value: 0.138e-6
+    unit: (square meter) / second
+analysis:
+  - description: List of erf_w numbers used in interpolating w as per Table B.2
+    variable: erf_w_list
+    expression: "[0.00000, 0.02256, 0.04511, 0.06762, 0.09008, 0.11246, 0.13476, 0.15695, 0.17901, 0.20094, 0.22270, 0.24430, 0.26570, 0.28690, 0.30788, 0.32863, 0.34913, 0.36936, 0.38933, 0.40901, 0.42839, 0.46622, 0.50275, 0.53790, 0.57162, 0.60386, 0.63459, 0.66378, 0.69143, 0.71754, 0.74210, 0.76514, 0.78669, 0.80677, 0.82542, 0.84270, 0.85865, 0.87333, 0.88679, 0.89910, 0.91031, 0.93401, 0.95228, 0.96611, 0.97635, 0.98379, 0.98909, 0.99279, 0.99532, 0.99814, 0.99931, 0.99976, 0.99992, 0.99998]"
+  - description: List of w numbers corresponding to list of erf_w numbers as per Table B.2
+    variable: w_list
+    expression: "[0.00, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.16, 0.18, 0.20, 0.22, 0.24, 0.26, 0.28, 0.30, 0.32, 0.34, 0.36, 0.38, 0.40, 0.44, 0.48, 0.52, 0.56, 0.60, 0.64, 0.68, 0.72, 0.76, 0.80, 0.84, 0.88, 0.92, 0.96, 1.00, 1.04, 1.08, 1.12, 1.16, 1.20, 1.30, 1.40, 1.50, 1.60, 1.70, 1.80, 1.90, 2.00, 2.20, 2.40, 2.60, 2.80, 3.00]"
+  - description: Function for determining w, given the Gaussian error, erf(w)
+    variable: w_def
+    expression: interp1d(erf_w_list, w_list)
+  - description: Gaussian error
+    variable: erf_w
+    expression: "(T - T_s) / (T_i - T_s)"
+  - description: Gaussian error function argument, w
+    variable: w
+    expression: "w_def(erf_w)"
+  - description: Depth to which soil has frozen
+    variable: x_m
+    expression: "w * 2 * (α*t)**0.5"
+    unit: meters
+problem_statement: |
+  In laying water mains, utilities must be concerned with the possibility of freezing during cold periods.
+  Although the problem of determining the temperature in soil as a function of time is complicated by changing surface conditions, reasonable estimates can be based on the assumption of a constant surface temperature over a prolonged period of cold weather.
+  What minimum burial depth x_m would you recommend to avoid freezing under conditions for which soil, initially at a uniform temperature of {T_i}, is subjected to a constant surface temperature of {T_s} for {t}?
+schematic: |
+  * k = {k}
+  * c = {c}
+  * p = {ρ}
+  * α = {α}
+
+  ```
+                        T_s = {T_s}
+        --------------------------------
+                        ^
+                        |       Soil
+                        |       T_i = {T_i}
+                        | x_m
+                        |
+                        |
+                        v       
+                       ---      T(x_m, t = {t}) = {T}
+                     /     \\
+                     \\     /
+                       ---
+                        water main
+  ```
+
+assumptions: |
+  1. One-dimensional conduction in x.
+  2. Soil is a semi-infinite medium.
+  3. Constant properties.
+comments: |
+  The properties of soil are highly variable, depending on the nature of the soil and its moisture content, and a representative range of thermal diffusivities is 1e-7 < α < 3e-7 m^2/s.
