@@ -18,6 +18,7 @@
     "loggingLevel": "error"
   },
   "scripts": {
+    "postinstall": "./gradlew installPythonDependencies",
     "build": "npm run clean && ./gradlew --offline build",
     "clean": "./gradlew --offline clean",
     "readme": "nunjucks -d package.json views/README.md.njk > README.md"

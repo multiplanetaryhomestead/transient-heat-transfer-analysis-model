@@ -11,6 +11,8 @@ plugins {
     id 'base'
 }
 
+def pythonVenvDirName = "venv"
+def pythonVenvDir = "$projectDir/$pythonVenvDirName"
 def schemaFileName = "computational-analysis-schema.yaml"
 def schemaSrcDirName = "model/schema"
 def schemaSrcDir = "$projectDir/$schemaSrcDirName"
@@ -42,6 +44,25 @@ def reportTemplatePath = "$reportTemplateDir/$reportTemplateFileName"
 def reportBuildDirName = "$reportSrcDirName/reports"
 def reportBuildDir = "$buildDir/$reportBuildDirName"
 def reportExt = ".md"
+
+tasks.register('createPythonVenv') {
+    inputs.files(fileTree("$projectDir"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$pythonVenvDir"))
+    exec {
+         commandLine "python", "-m", "venv", "$pythonVenvDirName"
+    }
+}
+
+tasks.register('installPythonDependencies') {
+    dependsOn(createPythonVenv)
+    inputs.files(fileTree("$projectDir/requirements.txt"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$pythonVenvDir"))
+    exec {
+         commandLine "$projectDir/venv/bin/python", "$projectDir/venv/bin/pip", "install", "-r", "$projectDir/requirements.txt"
+    }
+}
 
 tasks.register('buildUnifiedSchema') {
     inputs.files(fileTree("$schemaSrcDir"))
@@ -131,7 +152,7 @@ tasks.register('getQueryResults') {
             include "*$queryBuildExt"
         }.each { file ->
            exec {
-                commandLine "bash", "-c", "python $queryBuildDir/$file.name > $queryResultsDir/$file.name$queryResultsExt"
+                commandLine "bash", "-c", "./venv/bin/python $queryBuildDir/$file.name > $queryResultsDir/$file.name$queryResultsExt"
            }
        }
     }
