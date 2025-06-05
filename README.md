@@ -5,33 +5,17 @@ Demo m30ml project for conducting a transient heat transfer analysis
 ## Requirements
 
 - venv for python3
-- pip for python3
 - npm
 - gradle
 
 ## Install dependencies
 
-Activate python virtual environment
-
 ```bash
-$ python -m venv venv
-$ source ./venv/bin/activate
-```
-Install python packages
-
-```bash
-$ (venv)> pip install uv
-$ (venv)> uv pip install -r pyproject.toml
-```
-
-Install node modules
-
-```bash
-$ (venv)> npm i
+$ npm i
 ```
 
 ## Build model + views
 
 ```bash
-$ (venv)> npm run build
+$ npm run build
 ```
