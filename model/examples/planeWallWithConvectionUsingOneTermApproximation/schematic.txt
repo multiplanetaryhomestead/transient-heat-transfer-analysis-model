@@ -1,0 +1,18 @@
+* k = {k}
+* c = {c}
+* p = {ρ}
+* α = {α}
+
+```
+              T(x, t = 0) = T_i = {T_i}
+            |                  |
+ T(x = 0, t)|                  |        T_inf = {T_inf}
+            |                  |        h = {h}
+Insulation  | Steel, AISI 1010 |         ^ ^ ^
+            |                  |         | | |
+            |                  |        ( oil )
+            |                  |
+            |                  |T(x = L = {L}, t)
+
+            |--> x
+```

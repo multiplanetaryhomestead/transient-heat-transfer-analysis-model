@@ -1,0 +1,3 @@
+description: Gaussian error
+variable: erf_w
+expression: (T - T_s) / (T_i - T_s)

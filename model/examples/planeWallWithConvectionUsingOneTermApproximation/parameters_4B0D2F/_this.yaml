@@ -1,0 +1,4 @@
+description: Temperature of hot oil
+variable: T_inf
+value: 60
+unit: degC

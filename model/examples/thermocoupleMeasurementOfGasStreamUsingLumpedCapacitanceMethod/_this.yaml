@@ -1,0 +1,9 @@
+name: thermocouple-measurement-of-gas-stream-using-lumped-capacitance-method
+description: Thermocouple Measurement of Gas Stream using Lumped Capacitance Method
+parameters: ((parameters.yaml))
+constants: ((constants.yaml))
+analysis: ((analysis.yaml))
+problemStatement_txt: ((problemStatement.txt))
+schematic_txt: ((schematic.txt))
+assumptions_txt: ((assumptions.txt))
+comments_txt: lumped capacitance method is valid for Bi < 0.1

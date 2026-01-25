@@ -1,0 +1,3 @@
+required: true
+description: A name of a quantity, used as a variable or constant
+close_mappings: ((close_mappings.yaml))

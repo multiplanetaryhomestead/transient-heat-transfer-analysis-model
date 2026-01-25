@@ -1,0 +1,4 @@
+description: Energy transferred to pipe per length after time, t
+variable: Q_per_l
+expression: (1 - sin(ζ_1)/ζ_1 * θ_0) * ρ * c * pi * D * L_c * (T_i - T_inf)
+unit: joule / meter

@@ -1,0 +1,4 @@
+description: T(x=L, t=t); Temperature of interior pipe surface after time, t
+variable: T
+expression: T_inf + θ * (T_i - T_inf)
+unit: degC

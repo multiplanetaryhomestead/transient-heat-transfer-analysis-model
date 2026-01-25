@@ -1,0 +1,4 @@
+description: Temperature of gas stream
+variable: T_inf
+value: 200
+unit: degC

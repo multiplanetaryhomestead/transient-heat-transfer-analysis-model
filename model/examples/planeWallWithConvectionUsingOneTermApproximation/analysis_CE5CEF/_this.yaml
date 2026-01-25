@@ -1,0 +1,5 @@
+description: >-
+  Function for C_1 coefficient for one-term approximation for transient
+  one-dimensional conduction through a plane wall
+variable: c_1
+expression: interp1d(bi_list, c_1_list)

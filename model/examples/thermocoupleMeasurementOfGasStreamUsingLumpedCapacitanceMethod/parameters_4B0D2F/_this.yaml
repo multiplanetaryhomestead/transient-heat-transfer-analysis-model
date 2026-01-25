@@ -1,0 +1,4 @@
+description: Thermal time constant
+variable: τ_t
+value: 1
+unit: seconds

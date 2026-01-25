@@ -1,0 +1,4 @@
+description: Thermocouple junction diameter
+variable: D
+expression: 6 * h * τ_t / ( ρ * c )
+unit: millimeters

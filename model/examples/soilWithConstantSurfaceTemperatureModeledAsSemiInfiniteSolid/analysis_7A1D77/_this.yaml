@@ -1,0 +1,3 @@
+description: Gaussian error function argument, w
+variable: w
+expression: w_def(erf_w)

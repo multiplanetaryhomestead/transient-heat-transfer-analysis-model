@@ -1,0 +1,4 @@
+1. Temperature of junction is uniform at any instant
+2. Radiation exchange with the surroundings is negligible
+3. Losses by conduction through the leads are negligible
+4. Constant properties

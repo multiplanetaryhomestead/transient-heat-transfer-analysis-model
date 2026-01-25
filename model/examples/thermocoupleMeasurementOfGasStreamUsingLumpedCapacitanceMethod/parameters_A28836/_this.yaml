@@ -1,0 +1,4 @@
+description: Final temperature of thermocouple junction
+variable: Tf
+value: 199
+unit: degC

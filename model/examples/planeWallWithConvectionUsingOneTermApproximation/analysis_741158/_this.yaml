@@ -1,0 +1,4 @@
+description: Heat flux to the wall after time, t
+variable: q_dot
+expression: h * (T - T_inf)
+unit: watt / (square meter)

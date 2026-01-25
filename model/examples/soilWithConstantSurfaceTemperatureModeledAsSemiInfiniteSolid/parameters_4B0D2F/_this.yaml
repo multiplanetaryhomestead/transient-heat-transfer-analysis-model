@@ -1,0 +1,4 @@
+description: Temperature of soil at depth, x_m, after time t
+variable: T
+value: 0
+unit: degC

@@ -1,0 +1,4 @@
+description: Ordered list of computations used for conducting a computational analysis
+multivalued: true
+inlined_as_list: true
+range: Computation

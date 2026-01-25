@@ -32,19 +32,19 @@ u = UnitRegistry(autoconvert_offset_to_baseunit = True)
 
 name = f"""{{ name }}"""
 description = f"""{{ description }}"""
-problem_statement = f"""{{ problem_statement }}"""
-assumptions = f"""{{ assumptions }}"""
-schematic = f"""{{ schematic }}"""
-comments = f"""{{ comments }}"""
+problemStatement_txt = f"""{{ problemStatement_txt }}"""
+assumptions_txt = f"""{{ assumptions_txt }}"""
+schematic_txt = f"""{{ schematic_txt }}"""
+comments_txt = f"""{{ comments_txt }}"""
 
 analysis_results = {
 "name": name,
 "description": description,
-"problem_statement": problem_statement,
-"assumptions": assumptions,
-"schematic": schematic,
+"problemStatement_txt": problemStatement_txt,
+"assumptions_txt": assumptions_txt,
+"schematic_txt": schematic_txt,
 "results": [],
-"comments": comments
+"comments_txt": comments_txt
 }
 
 {% for computation in analysis %}

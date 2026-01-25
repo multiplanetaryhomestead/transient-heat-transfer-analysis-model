@@ -1,0 +1,9 @@
+id: https://w3id.org/linkml/examples/personinfo
+name: computational-analysis-schema
+title: Computational Analysis Schema
+description: LinkML schema definition for modeling a computational analysis
+prefixes: ((prefixes/_this.yaml))
+imports: ((imports.yaml))
+default_range: string
+classes: ((classes/_this.yaml))
+slots: ((slots/_this.yaml))

@@ -1,0 +1,4 @@
+description: Thermal conductivity of soil Table A.3 [T ~= 300K]
+variable: k
+value: 0.52
+unit: watt / (meter kelvin)

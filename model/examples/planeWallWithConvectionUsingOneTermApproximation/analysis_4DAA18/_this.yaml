@@ -1,0 +1,3 @@
+description: Dimensionless midplane (x* = 0) temperature after time, t
+variable: θ_0
+expression: C_1 * exp( -ζ_1**2 * Fo )

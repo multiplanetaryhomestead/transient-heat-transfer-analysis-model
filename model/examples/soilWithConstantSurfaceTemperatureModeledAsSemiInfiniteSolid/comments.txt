@@ -1,0 +1,1 @@
+The properties of soil are highly variable, depending on the nature of the soil and its moisture content, and a representative range of thermal diffusivities is 1e-7 < α < 3e-7 m^2/s.

@@ -10,7 +10,8 @@
     "./packages/@*/*"
   ],
   "dependencies": {
-    "@rse/nunjucks-cli": "1.5.3"
+    "@rse/nunjucks-cli": "1.5.3",
+    "yaml-datastore": "github:capsulecorplab/yaml-datastore#dist"
   },
   "m30pm": {
     "versionControlTool": "git",
@@ -24,4 +25,3 @@
     "readme": "nunjucks -d package.json views/README.md.njk > README.md"
   }
 }
-
