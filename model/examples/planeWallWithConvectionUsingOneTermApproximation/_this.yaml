@@ -1,0 +1,9 @@
+name: plane-wall-with-convection-using-one-term-approximation
+description: Plane Wall with Convection using One-Term Approximation
+parameters: ((parameters.yaml))
+constants: ((constants.yaml))
+analysis: ((analysis.yaml))
+problemStatement_txt: ((problemStatement.txt))
+schematic_txt: ((schematic.txt))
+assumptions_txt: ((assumptions.txt))
+comments_txt: ((comments.txt))

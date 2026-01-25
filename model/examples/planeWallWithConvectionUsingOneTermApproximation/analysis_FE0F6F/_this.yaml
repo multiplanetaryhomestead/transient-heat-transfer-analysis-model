@@ -1,0 +1,5 @@
+description: >-
+  C_1, Coefficient for Biot number used in one-term approximation for transient
+  one-dimensional conduction through a plane wall
+variable: C_1
+expression: c_1(Bi)

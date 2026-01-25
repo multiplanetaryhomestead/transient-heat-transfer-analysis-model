@@ -1,0 +1,4 @@
+description: Thickness of pipe wall
+variable: L
+value: 40
+unit: mm

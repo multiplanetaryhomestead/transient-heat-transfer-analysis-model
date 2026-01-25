@@ -1,0 +1,4 @@
+description: Thermocouple junction radius
+variable: r
+expression: D / 2
+unit: millimeters

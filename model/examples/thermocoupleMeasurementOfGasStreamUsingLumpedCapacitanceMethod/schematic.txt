@@ -1,0 +1,15 @@
+* T_i = {T_i}
+* k = {k}
+* c = {c}
+* p = {ρ}
+
+```
+       ---------- 
+      /          \\          T_inf = {T_inf}
+     /            \\         h = {round(h, 3)}
+    / Thermocouple \\            <----
+    \\   junction   /            <----
+     \\            /         ( gas stream )
+      \\          /
+       ----------
+```

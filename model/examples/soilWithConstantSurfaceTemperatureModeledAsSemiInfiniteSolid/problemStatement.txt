@@ -1,0 +1,3 @@
+In laying water mains, utilities must be concerned with the possibility of freezing during cold periods.
+Although the problem of determining the temperature in soil as a function of time is complicated by changing surface conditions, reasonable estimates can be based on the assumption of a constant surface temperature over a prolonged period of cold weather.
+What minimum burial depth x_m would you recommend to avoid freezing under conditions for which soil, initially at a uniform temperature of {T_i}, is subjected to a constant surface temperature of {T_s} for {t}?

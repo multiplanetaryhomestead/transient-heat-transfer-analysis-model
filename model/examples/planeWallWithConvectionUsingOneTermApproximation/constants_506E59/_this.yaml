@@ -1,0 +1,4 @@
+description: Specific heat of steel type AISI 1010 [T ~= 300K]
+variable: c
+value: 434
+unit: joule / (kilogram kelvin)

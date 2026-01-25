@@ -1,0 +1,4 @@
+description: time equation for lumped capacitance model
+variable: t
+expression: '-τ_t * log( (Tf - T_inf) / (T_i - T_inf) )'
+unit: seconds

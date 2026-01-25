@@ -1,0 +1,9 @@
+description: >-
+  List of Zeta_1 coefficients corresponding to list of Biot numbers for one-term
+  approximation for transient one-dimensional conduction through a plane wall
+variable: zeta_1_list
+expression: >-
+  [0.0998, 0.1410, 0.1723, 0.1987, 0.2218, 0.2425, 0.2615, 0.2791, 0.2956,
+  0.3111, 0.3779, 0.4328, 0.4801, 0.5218, 0.5932, 0.6533, 0.7051, 0.7506,
+  0.7910, 0.8274, 0.8603, 1.0769, 1.1925, 1.2646, 1.3138, 1.3496, 1.3766,
+  1.3978, 1.4149, 1.4289, 1.4961, 1.5202, 1.5325, 1.5400, 1.5552]

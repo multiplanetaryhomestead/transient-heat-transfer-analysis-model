@@ -1,0 +1,4 @@
+description: >-
+  Mathematical Equation that describes a variable as an expression of one or
+  more inputs (independent variables) in a valid unit of measurement
+slots: ((slots.yaml))

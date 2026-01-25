@@ -1,0 +1,4 @@
+description: convection coefficient
+variable: h
+value: 400
+unit: watt / (square meter kelvin)

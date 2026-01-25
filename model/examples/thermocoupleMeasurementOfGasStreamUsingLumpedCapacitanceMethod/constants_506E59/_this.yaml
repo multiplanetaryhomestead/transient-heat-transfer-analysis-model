@@ -1,0 +1,4 @@
+description: specific heat of thermocouple junction
+variable: c
+value: 400
+unit: joule / (kilogram kelvin)

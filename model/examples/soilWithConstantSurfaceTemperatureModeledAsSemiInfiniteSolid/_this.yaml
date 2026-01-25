@@ -1,0 +1,9 @@
+name: soil-with-constant-surface-temperature-modeled-as-semi-infinite-solid
+description: Soil with Constant Surface Temperature modeled as Semi-Infinite Solid
+parameters: ((parameters.yaml))
+constants: ((constants.yaml))
+analysis: ((analysis.yaml))
+problemStatement_txt: ((problemStatement.txt))
+schematic_txt: ((schematic.txt))
+assumptions_txt: ((assumptions.txt))
+comments_txt: ((comments.txt))

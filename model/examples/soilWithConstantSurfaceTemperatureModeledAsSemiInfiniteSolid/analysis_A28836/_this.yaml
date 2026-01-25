@@ -1,0 +1,3 @@
+description: Function for determining w, given the Gaussian error, erf(w)
+variable: w_def
+expression: interp1d(erf_w_list, w_list)

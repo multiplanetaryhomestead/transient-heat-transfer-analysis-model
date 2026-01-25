@@ -1,0 +1,4 @@
+description: Fourier number
+variable: Fo
+expression: α * t / L_c**2
+unit: dimensionless

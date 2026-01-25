@@ -1,0 +1,4 @@
+description: Thermal conductivity of steel type AISI 1010 [T ~= 300K]
+variable: k
+value: 63.9
+unit: watt / (meter kelvin)

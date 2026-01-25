@@ -1,0 +1,4 @@
+description: Density of soil Table A.3 [T ~= 300K]
+variable: ρ
+value: 2050
+unit: kilogram / (cubic meter)

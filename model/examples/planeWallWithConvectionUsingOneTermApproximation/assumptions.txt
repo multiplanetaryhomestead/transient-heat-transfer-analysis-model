@@ -1,0 +1,3 @@
+1. Pipe wall can be approximated as plane wall, since thickness is much less than diameter.
+2. Constant properties.
+3. Outer surface of pipe is adiabatic.

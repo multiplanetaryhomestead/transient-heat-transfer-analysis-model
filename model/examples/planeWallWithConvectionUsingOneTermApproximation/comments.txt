@@ -1,0 +1,2 @@
+Lumped capacitance model is invalid for Bi > 0.1.
+However, one-term approximation is valid for Fo > 0.2

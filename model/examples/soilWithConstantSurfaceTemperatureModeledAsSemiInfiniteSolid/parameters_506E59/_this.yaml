@@ -1,0 +1,4 @@
+description: Surface temperature of soil
+variable: T_s
+value: -15
+unit: degC
