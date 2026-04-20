@@ -1,4 +1,4 @@
 description: Ordered list of computations used for conducting a numerical analysis
 multivalued: true
 inlined_as_list: true
-range: NumericalAnalysis
+range: NumericalMethod
