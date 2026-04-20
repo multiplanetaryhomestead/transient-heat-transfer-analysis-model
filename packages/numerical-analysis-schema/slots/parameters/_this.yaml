@@ -1,0 +1,4 @@
+description: List of parameters used for conducting a numerical analysis
+multivalued: true
+inlined_as_list: true
+range: Parameter
