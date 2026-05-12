@@ -25,17 +25,20 @@ def modelExamplesSrcDir = "$projectDir/$modelExamplesDirName"
 def modelExamplesBuildDir = "$buildDir/$modelExamplesDirName"
 def modelBuildDirName = "$modelExamplesDirName"
 def modelBuildDir = "$buildDir/$modelBuildDirName"
+def preprocessedModelTemplateFileName = "preprocess_model.py.njk"
 def analyticalModelTemplateFileName = "run_analysis.py.njk"
-def queryDirName = "views/queries"
-def analyticalModelBuildDir = "$buildDir/$queryDirName"
+def viewsDirName = "views"
+def queryDirName = "$viewsDirName/queries"
+def preprocessedModelBuildDir = "$buildDir/$queryDirName"
+def analyticalModelBuildDirName = "analysis"
+def analyticalModelBuildDir = "$buildDir/$queryDirName/$analyticalModelBuildDirName"
 def querySrcDir = "$projectDir/$queryDirName"
-def resultsBuildDirName = "$queryDirName/results"
-def resultsBuildDir = "$buildDir/$resultsBuildDirName"
+def resultsBuildDirName = "$analyticalModelBuildDirName/results"
+def resultsBuildDir = "$buildDir/$queryDirName/$resultsBuildDirName"
 def reportTemplateFileName = "analysis_report.md.njk"
-def reportSrcDirName = "views/"
-def reportTemplateDir = "$projectDir/$reportSrcDirName"
+def reportTemplateDir = "$projectDir/$viewsDirName"
 def reportTemplatePath = "$reportTemplateDir/$reportTemplateFileName"
-def reportBuildDirName = "$queryDirName/reports"
+def reportBuildDirName = "$viewsDirName/reports"
 def reportBuildDir = "$buildDir/$reportBuildDirName"
 
 tasks.register('createPythonVenv') {
@@ -111,15 +114,45 @@ tasks.register('validateModelExamples') {
     }
 }
 
-tasks.register('buildAnalyticalModelExamples') {
+tasks.register('buildPreprocessor') {
     dependsOn(validateModelExamples)
+    inputs.files(fileTree("$modelExamplesBuildDir"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$preprocessedModelBuildDir"))
+    doLast {
+        new File("$modelExamplesSrcDir").eachDir { dir ->
+            exec {
+                //commandLine "bash", "-c", "ls $preprocessedModelBuildDir/$dir.name$pythonExtension"
+                //commandLine "bash", "-c", "npm exec -- nunjucks -d $modelExamplesBuildDir/$dir.name$yamlExtension $querySrcDir/$preprocessedModelTemplateFileName"
+                commandLine "bash", "-c", "npm exec -- nunjucks -d $modelExamplesBuildDir/$dir.name$yamlExtension $querySrcDir/$preprocessedModelTemplateFileName > $preprocessedModelBuildDir/$dir.name$pythonExtension"
+            }
+        }
+    }
+}
+
+tasks.register('generatePreprocessedModelExamples') {
+    dependsOn(buildPreprocessor)
+    inputs.files(fileTree("$preprocessedModelBuildDir"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$preprocessedModelBuildDir"))
+    doLast {
+        new File("$modelExamplesSrcDir").eachDir { dir ->
+            exec {
+                commandLine "bash", "-c", "./venv/bin/python $preprocessedModelBuildDir/$dir.name$pythonExtension > $preprocessedModelBuildDir/$dir.name$yamlExtension"
+            }
+        }
+    }
+}
+
+tasks.register('buildAnalyticalModelExamples') {
+    dependsOn(generatePreprocessedModelExamples)
     inputs.files(fileTree("$modelExamplesBuildDir"))
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
     outputs.dir(layout.buildDirectory.dir("$resultsBuildDir"))
     doLast {
         new File("$modelExamplesSrcDir").eachDir { dir ->
             exec {
-                commandLine "bash", "-c", "npm exec -- nunjucks -d $modelExamplesBuildDir/$dir.name$yamlExtension $querySrcDir/$analyticalModelTemplateFileName > $analyticalModelBuildDir/$dir.name$pythonExtension"
+                commandLine "bash", "-c", "npm exec -- nunjucks -d $preprocessedModelBuildDir/$dir.name$yamlExtension $querySrcDir/$analyticalModelTemplateFileName > $analyticalModelBuildDir/$dir.name$pythonExtension"
             }
         }
     }
