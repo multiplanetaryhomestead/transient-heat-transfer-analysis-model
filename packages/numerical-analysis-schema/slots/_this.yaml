@@ -1,4 +1,3 @@
-name: ((name/_this.yaml))
 description: ((description/_this.yaml))
 value: ((value/_this.yaml))
 unit: ((unit/_this.yaml))
