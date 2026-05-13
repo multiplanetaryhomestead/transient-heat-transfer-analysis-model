@@ -1,4 +1,4 @@
 description: Characteristic length
-variable: L
+variable: L_c
 expression: r / 3
 unit: millimeters
