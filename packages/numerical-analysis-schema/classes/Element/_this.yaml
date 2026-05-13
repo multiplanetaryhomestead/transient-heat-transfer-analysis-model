@@ -1,0 +1,2 @@
+description: Abstract base class used by Quantity and NumericalMethod class
+slots: ((slots.yaml))

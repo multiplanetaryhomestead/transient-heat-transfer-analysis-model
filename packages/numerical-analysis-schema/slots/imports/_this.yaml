@@ -1,3 +1,4 @@
 description: List of relative paths to quantities or equations to be imported for use in analysis
 multivalued: true
 inlined_as_list: true
+close_mappings: ((close_mappings.yaml))
