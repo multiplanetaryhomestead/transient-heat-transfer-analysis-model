@@ -1,2 +1,5 @@
 biotNumber: ((biotNumber/_this.yaml))
 fourierNumber: ((fourierNumber/_this.yaml))
+biList: ((biList/_this.yaml))
+zeta1List: ((zeta1List/_this.yaml))
+c1List: ((c1List/_this.yaml))
