@@ -1,7 +1,7 @@
 id: https://w3id.org/linkml/examples/personinfo
-name: numerical-analysis-schema
-title: Numerical Analysis Schema
-description: LinkML schema definition for modeling a numerical analysis
+name: initial-boundary-value-problem-schema
+title: initial-boundary value problem Schema
+description: LinkML schema definition for modeling a initial-boundary value problem
 prefixes: ((prefixes/_this.yaml))
 imports: ((imports.yaml))
 default_range: string

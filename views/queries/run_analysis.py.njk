@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # (View definition for)
-# performing numerical analysis in python
+# performing initial-boundary value problem in python
 #
 # References:
 # - Fundamentals of Heat and Mass Transfer, 6e, p.261-263
@@ -45,7 +45,7 @@ analysis_results = {
 "comments_txt": comments_txt
 }
 
-## Perform numerical analysis
+## Perform initial-boundary value problem
 
 {% for computation in analysis %}
 {{ computation.variable }} = {{ computation.expression }}

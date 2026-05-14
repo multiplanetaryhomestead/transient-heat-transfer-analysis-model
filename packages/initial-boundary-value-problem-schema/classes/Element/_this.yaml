@@ -1,0 +1,2 @@
+description: Abstract base class used by Quantity and ClosedFormSolution class
+slots: ((slots.yaml))
