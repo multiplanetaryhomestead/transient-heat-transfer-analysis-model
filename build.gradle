@@ -20,11 +20,13 @@ def markdownExtension = ".md"
 def unifiedSchemaFileName = "unifiedSchema"
 def unifiedSchemaSrcDirPath = "$projectDir/packages/numerical-analysis-schema"
 def unifiedSchemaBuildPath = "$buildDir/$unifiedSchemaFileName$yamlExtension"
-def modelExamplesDirName = "model/examples"
+def modelDirName = "model"
+def modelEquationsDirName = "$modelDirName/equations"
+def modelEquationsSrcDir = "$projectDir/$modelEquationsDirName"
+def modelEquationsBuildDir = "$buildDir/$modelEquationsDirName"
+def modelExamplesDirName = "$modelDirName/examples"
 def modelExamplesSrcDir = "$projectDir/$modelExamplesDirName"
 def modelExamplesBuildDir = "$buildDir/$modelExamplesDirName"
-def modelBuildDirName = "$modelExamplesDirName"
-def modelBuildDir = "$buildDir/$modelBuildDirName"
 def preprocessedModelTemplateFileName = "preprocess_model.py.njk"
 def analyticalModelTemplateFileName = "run_analysis.py.njk"
 def viewsDirName = "views"
@@ -84,8 +86,37 @@ tasks.register('cleanupUnifiedSchema', Exec) {
     commandLine "yq", "-i", "del(.imports)", "$unifiedSchemaBuildPath"
 }
 
-tasks.register('queryModelExamples') {
+tasks.register('queryModelEquations') {
     dependsOn(cleanupUnifiedSchema)
+    inputs.files(fileTree("$modelEquationsSrcDir"))
+    .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$modelEquationsBuildDir"))
+    doLast {
+        new File("$modelEquationsSrcDir").eachDir { dir ->
+            exec {
+                commandLine "bash", "-c", "npm exec -- yds-load $modelEquationsSrcDir/$dir.name > $modelEquationsBuildDir/$dir.name$yamlExtension"
+            }
+        }
+    }
+}
+
+tasks.register('validateModelEquations') {
+    dependsOn(queryModelEquations)
+    inputs.files(fileTree("$modelExamplesBuildDir"))
+    .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    doLast {
+        fileTree("$modelExamplesBuildDir").matching {
+            include "*$yamlExtension"
+        }.each { file ->
+            exec {
+                commandLine "linkml-validate", "-s", "$unifiedSchemaBuildPath", "--target-class", "AnalyticalMethod", "$modelEquationBuildDir/$file.name"
+            }
+        }
+    }
+}
+
+tasks.register('queryModelExamples') {
+    dependsOn(validateModelEquations)
     inputs.files(fileTree("$modelExamplesSrcDir"))
     .withPathSensitivity(PathSensitivity.ABSOLUTE)
     outputs.dir(layout.buildDirectory.dir("$modelExamplesBuildDir"))
@@ -108,7 +139,7 @@ tasks.register('validateModelExamples') {
         }.each { file ->
             exec {
                 //commandLine "echo", "$unifiedSchemaBuildPath"
-                commandLine "linkml-validate", "-s", "$unifiedSchemaBuildPath", "$modelExamplesBuildDir/$file.name"
+                commandLine "linkml-validate", "-s", "$unifiedSchemaBuildPath", "--target-class", "Example", "$modelExamplesBuildDir/$file.name"
             }
         }
     }
