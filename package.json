@@ -14,6 +14,7 @@
   ],
   "dependencies": {
     "@rse/nunjucks-cli": "1.5.3",
+    "transient-conduction": "^0.0.0",
     "yaml-datastore": "github:dof-initiative/yaml-datastore"
   },
   "m30pm": {
