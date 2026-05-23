@@ -1,4 +1,4 @@
-description: List of relative paths to quantities or equations to be imported for use in analysis
+description: List of colon-separated package and element paths to quantities or equations to be imported for use in analysis (e.g., transient-heat-transfer-analysis-model:model.equations.lumpedCapacitanceMethod.biotNumber)
 multivalued: true
 inlined_as_list: true
 close_mappings: ((close_mappings.yaml))
