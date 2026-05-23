@@ -1,0 +1,3 @@
+description: Zeta_1, Coefficient for Biot number used in one-term approximation for transient one-dimensional conduction through a plane wall
+variable: ζ_1
+expression: interp1d(bi_list, zeta_1_list)(Bi).item()*u.radians

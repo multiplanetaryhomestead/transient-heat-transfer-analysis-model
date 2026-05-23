@@ -1,0 +1,95 @@
+#!/usr/bin/env python
+#
+# (View definition for)
+# building and pre-processing model with merged imports in python.
+#
+
+from pint import UnitRegistry
+import yaml
+
+u = UnitRegistry(autoconvert_offset_to_baseunit = True)
+
+def read_file(file: str) -> str:
+    with open(file, "r") as file_obj:
+        file_contents = file_obj.read()
+    return file_contents
+
+## Parameters
+
+parameters = []
+{% for parameter in parameters %}
+### {{ parameter.description }}
+{{ parameter.variable }} = {{ parameter.value }} * u('{{ parameter.unit }}')
+
+parameter = {}
+parameter["description"] = "{{ parameter.description }}"
+parameter["variable"] = "{{ parameter.variable }}"
+parameter["value"] = {{ parameter.value }}
+parameter["unit"] = "{{ parameter.unit }}"
+parameters.append(parameter)
+{% endfor %}
+
+## Constants
+
+constants = []
+{% for constant in constants %}
+### {{ constant.description }}
+{{ constant.variable }} = {{ constant.value }} * u('{{ constant.unit }}')
+
+constant = {}
+constant["description"] = "{{ constant.description }}"
+constant["variable"] = "{{ constant.variable }}"
+constant["value"] = {{ constant.value }}
+constant["unit"] = "{{ constant.unit }}"
+constants.append(constant)
+{% endfor %}
+
+## Analysis to be performed
+analysis = []
+{% for computation in analysis %}
+
+### Merge imports
+{% if 'imports' in computation %}
+### load contents of {{ path }} and append to analysis
+{% for path in computation.imports %}
+file_contents = read_file("{{ path }}")
+file_contents_as_dict = yaml.safe_load(file_contents)
+analysis.append(file_contents_as_dict)
+{% endfor %}
+{% endif %}
+
+{% if 'description' in computation %}
+computation = {}
+computation["description"] = "{{ computation.description }}"
+computation["variable"] = "{{ computation.variable }}"
+computation["expression"] = "{{ computation.expression }}"
+{% if 'unit' in computation %}
+computation["unit"] = "{{ computation.unit }}"
+{% endif %}
+analysis.append(computation)
+{% endif %}
+
+{% endfor %}
+
+## Other string fields
+name = f"""{{ name }}"""
+description = f"""{{ description }}"""
+problemStatement_txt = f"""{{ problemStatement_txt }}"""
+assumptions_txt = f"""{{ assumptions_txt }}"""
+schematic_txt = r"""{{ schematic_txt }}"""
+comments_txt = f"""{{ comments_txt }}"""
+
+model_with_merged_imports = {
+"name": name,
+"description": description,
+"problemStatement_txt": problemStatement_txt,
+"assumptions_txt": assumptions_txt,
+"parameters": parameters,
+"constants": constants,
+"schematic_txt": schematic_txt,
+"analysis": analysis,
+"comments_txt": comments_txt
+}
+
+print(yaml.dump(model_with_merged_imports, indent=2))
+

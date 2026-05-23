@@ -1,3 +1,1 @@
-description: Dimensionless surface (x* = 1) temperature after time, t
-variable: θ
-expression: θ_0 * cos( -ζ_1 )
+imports: ((imports.yaml))

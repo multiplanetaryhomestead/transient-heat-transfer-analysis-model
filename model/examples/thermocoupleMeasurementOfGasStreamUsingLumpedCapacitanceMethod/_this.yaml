@@ -1,4 +1,3 @@
-name: thermocouple-measurement-of-gas-stream-using-lumped-capacitance-method
 description: Thermocouple Measurement of Gas Stream using Lumped Capacitance Method
 parameters: ((parameters.yaml))
 constants: ((constants.yaml))

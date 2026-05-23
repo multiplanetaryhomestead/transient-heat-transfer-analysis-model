@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 #
 # (View definition for)
-# Example transient conductive heat transfer analysis
-# for a thermocouple measurement of a gas stream
-# using lumped capacitance method.
+# performing initial-boundary value problem in python
 #
 # References:
 # - Fundamentals of Heat and Mass Transfer, 6e, p.261-263
@@ -46,6 +44,8 @@ analysis_results = {
 "results": [],
 "comments_txt": comments_txt
 }
+
+## Perform initial-boundary value problem
 
 {% for computation in analysis %}
 {{ computation.variable }} = {{ computation.expression }}

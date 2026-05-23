@@ -1,0 +1,3 @@
+is_a: Element
+description: A quantity used to describe a parameter or constant
+slots: ((slots.yaml))

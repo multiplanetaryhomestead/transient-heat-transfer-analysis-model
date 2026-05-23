@@ -1,0 +1,3 @@
+tree_root: true
+description: Root model element
+slots: ((slots.yaml))
