@@ -1,0 +1,12 @@
+{
+  "name": "transient-conduction",
+  "version": "0.0.0",
+  "description": "Collection of approaches and equations for use in a transient heat transfer analysis model",
+  "license": "CC0-1.0",
+  "author": "Sean Marquez",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
