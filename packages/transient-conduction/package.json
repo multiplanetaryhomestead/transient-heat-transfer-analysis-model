@@ -7,9 +7,14 @@
   "files": [
     "model"
   ],
-  "type": "commonjs",
-  "main": "index.js",
+  "bin": {
+    "transient-conduction": "./bin/transient-conduction.js"
+  },
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "git": "github:dof-initiative/yaml-datastore"
   }
 }
