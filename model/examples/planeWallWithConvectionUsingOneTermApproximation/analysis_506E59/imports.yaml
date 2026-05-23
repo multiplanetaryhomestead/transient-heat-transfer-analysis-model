@@ -1,2 +1,2 @@
-- transient-conduction:model.lumpedCapacitanceMethod.biotNumber
-- transient-conduction:model.oneTermApproximation.fourierNumber
+- transient-conduction:model.equations.lumpedCapacitanceMethod.biotNumber
+- transient-conduction:model.equations.oneTermApproximation.fourierNumber

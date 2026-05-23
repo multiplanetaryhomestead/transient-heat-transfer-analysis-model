@@ -38,8 +38,8 @@ if (numArgs == 0 || args.includes("--help")) {
   console.log("  $ transient-conduction model");
   console.log("  $ transient-conduction model -d 0");
   console.log("  $ transient-conduction model -f json");
-  console.log("  $ transient-conduction model.lumpedCapacitance");
-  console.log("  $ transient-conduction model.lumpedCapacitance.biotNumber");
+  console.log("  $ transient-conduction model.equations.lumpedCapacitance");
+  console.log("  $ transient-conduction model.equations.lumpedCapacitance.biotNumber");
   console.log("");
   process.exit(0);
 }
