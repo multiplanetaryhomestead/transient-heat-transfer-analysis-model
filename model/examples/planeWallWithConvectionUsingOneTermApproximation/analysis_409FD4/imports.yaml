@@ -1,2 +1,2 @@
-- model/equations/oneTermApproximation/zeta1/_this.yaml
-- model/equations/oneTermApproximation/c1/_this.yaml
+- transient-conduction:model.oneTermApproximation.zeta1
+- transient-conduction:model.oneTermApproximation.c1
