@@ -86,7 +86,7 @@ tasks.register('cleanupUnifiedSchema', Exec) {
     commandLine "yq", "-i", "del(.imports)", "$unifiedSchemaBuildPath"
 }
 
-tasks.register('queryModelExamples') {
+tasks.register('loadModelExamples') {
     dependsOn(cleanupUnifiedSchema)
     inputs.files(fileTree("$modelExamplesSrcDir"))
     .withPathSensitivity(PathSensitivity.ABSOLUTE)
@@ -101,7 +101,7 @@ tasks.register('queryModelExamples') {
 }
 
 tasks.register('validateModelExamples') {
-    dependsOn(queryModelExamples)
+    dependsOn(loadModelExamples)
     inputs.files(fileTree("$modelExamplesBuildDir"))
     .withPathSensitivity(PathSensitivity.ABSOLUTE)
     doLast {
