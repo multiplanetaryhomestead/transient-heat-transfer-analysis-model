@@ -86,37 +86,8 @@ tasks.register('cleanupUnifiedSchema', Exec) {
     commandLine "yq", "-i", "del(.imports)", "$unifiedSchemaBuildPath"
 }
 
-tasks.register('queryModelEquations') {
-    dependsOn(cleanupUnifiedSchema)
-    inputs.files(fileTree("$modelEquationsSrcDir"))
-    .withPathSensitivity(PathSensitivity.ABSOLUTE)
-    outputs.dir(layout.buildDirectory.dir("$modelEquationsBuildDir"))
-    doLast {
-        new File("$modelEquationsSrcDir").eachDir { dir ->
-            exec {
-                commandLine "bash", "-c", "npm exec -- yds-load $modelEquationsSrcDir/$dir.name > $modelEquationsBuildDir/$dir.name$yamlExtension"
-            }
-        }
-    }
-}
-
-tasks.register('validateModelEquations') {
-    dependsOn(queryModelEquations)
-    inputs.files(fileTree("$modelExamplesBuildDir"))
-    .withPathSensitivity(PathSensitivity.ABSOLUTE)
-    doLast {
-        fileTree("$modelExamplesBuildDir").matching {
-            include "*$yamlExtension"
-        }.each { file ->
-            exec {
-                commandLine "linkml-validate", "-s", "$unifiedSchemaBuildPath", "--target-class", "AnalyticalMethod", "$modelEquationBuildDir/$file.name"
-            }
-        }
-    }
-}
-
 tasks.register('queryModelExamples') {
-    dependsOn(validateModelEquations)
+    dependsOn(cleanupUnifiedSchema)
     inputs.files(fileTree("$modelExamplesSrcDir"))
     .withPathSensitivity(PathSensitivity.ABSOLUTE)
     outputs.dir(layout.buildDirectory.dir("$modelExamplesBuildDir"))
