@@ -6,7 +6,7 @@
   "license": "CC0-1.0",
   "packageManager": "npm",
   "files": [
-    "build"
+    "model"
   ],
   "bin": {
     "transient-conduction": "./bin/transient-conduction.js"
