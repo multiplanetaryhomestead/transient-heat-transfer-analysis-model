@@ -4,6 +4,9 @@
   "description": "Collection of approaches and equations for use in a transient heat transfer analysis model",
   "license": "CC0-1.0",
   "author": "Sean Marquez",
+  "files": [
+    "model"
+  ],
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
