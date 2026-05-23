@@ -11,7 +11,7 @@
   ],
   "dependencies": {
     "@rse/nunjucks-cli": "1.5.3",
-    "yaml-datastore": "github:capsulecorplab/yaml-datastore#dist"
+    "yaml-datastore": "github:dof-initiative/yaml-datastore"
   },
   "m30pm": {
     "versionControlTool": "git",
