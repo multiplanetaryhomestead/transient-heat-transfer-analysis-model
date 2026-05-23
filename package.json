@@ -5,6 +5,9 @@
   "author": "Sean Marquez",
   "license": "CC0-1.0",
   "packageManager": "npm",
+  "files": [
+    "build"
+  ],
   "workspaces": [
     "./packages/*",
     "./packages/@*/*"
@@ -19,6 +22,7 @@
     "loggingLevel": "error"
   },
   "scripts": {
+    "prepare": "npm run build",
     "postinstall": "./gradlew installPythonDependencies",
     "build": "npm run clean && ./gradlew --offline build",
     "clean": "./gradlew --offline clean",
