@@ -9,14 +9,32 @@
 - npm
 - gradle
 
-## Install dependencies
+## Using project from cloned repo
+
+### Clone and `cd` into repo
+
+```bash
+git clone {{ repository.url }}
+cd {{ name }}/
+```
+
+### Install dependencies
 
 ```bash
 npm i
 ```
 
-## Build model + views
+### Build model + views
 
 ```bash
 npm run build
+```
+
+## Using project as library
+
+### Install as npm package directly from git repo
+
+```bash
+cd path/to/your/project
+npm install git+{{ repository.url }}
 ```
