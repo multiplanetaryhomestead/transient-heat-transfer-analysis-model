@@ -1,2 +1,2 @@
-- model/equations/lumpedCapacitanceMethod/biotNumber/_this.yaml
-- model/equations/oneTermApproximation/fourierNumber/_this.yaml
+- transient-conduction:model.equations.lumpedCapacitanceMethod.biotNumber
+- transient-conduction:model.equations.oneTermApproximation.fourierNumber

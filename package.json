@@ -5,13 +5,23 @@
   "author": "Sean Marquez",
   "license": "CC0-1.0",
   "packageManager": "npm",
+  "files": [
+    "model"
+  ],
+  "bin": {
+    "transient-conduction": "./bin/transient-conduction.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/multiplanetaryhomestead/transient-heat-transfer-analysis-model.git"
+  },
   "workspaces": [
     "./packages/*",
     "./packages/@*/*"
   ],
   "dependencies": {
     "@rse/nunjucks-cli": "1.5.3",
-    "yaml-datastore": "github:capsulecorplab/yaml-datastore#dist"
+    "yaml-datastore": "github:dof-initiative/yaml-datastore"
   },
   "m30pm": {
     "versionControlTool": "git",
@@ -19,9 +29,10 @@
     "loggingLevel": "error"
   },
   "scripts": {
-    "postinstall": "./gradlew installPythonDependencies",
+    "prepare": "./gradlew installPythonDependencies",
     "build": "npm run clean && ./gradlew --offline build",
     "clean": "./gradlew --offline clean",
     "readme": "nunjucks -d package.json views/README.md.njk > README.md"
-  }
+  },
+  "type": "module"
 }
