@@ -11,6 +11,10 @@
   "bin": {
     "transient-conduction": "./bin/transient-conduction.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/multiplanetaryhomestead/transient-heat-transfer-analysis-model.git"
+  },
   "workspaces": [
     "./packages/*",
     "./packages/@*/*"
