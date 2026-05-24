@@ -1,3 +1,3 @@
-is_a: Element
+is_a: QuantifiableElement
 description: Closed-form solution used to solve for a variable given a mathematical expression and a valid unit of measurement
 slots: ((slots.yaml))
