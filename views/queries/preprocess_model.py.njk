@@ -54,9 +54,10 @@ analysis = []
 ### load contents of {{ import_item }} and append to analysis
 {% for import_item in computation.imports %}
 import_items_split_on_colon = "{{ import_item }}".split(":")
-package_name = import_items_split_on_colon[0]
+cli_applet = import_items_split_on_colon[0]
 element_path = import_items_split_on_colon[1]
-subprocess_result = subprocess.run(['npm', 'exec', '--', package_name, element_path], capture_output=True, text=True)
+# subprocess_result = subprocess.run(['npm', 'exec', '--', cli_applet, element_path], capture_output=True, text=True) # use this instead if calling CLI applet as a library
+subprocess_result = subprocess.run(['./bin/' + cli_applet + '.js', element_path], capture_output=True, text=True)
 file_contents = subprocess_result.stdout
 file_contents_as_dict = yaml.safe_load(file_contents)
 analysis.append(file_contents_as_dict)
