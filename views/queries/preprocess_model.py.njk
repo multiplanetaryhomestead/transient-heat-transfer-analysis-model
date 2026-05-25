@@ -4,11 +4,8 @@
 # building and pre-processing model with merged imports in python.
 #
 
-from pint import UnitRegistry
 import yaml
 import subprocess
-
-u = UnitRegistry(autoconvert_offset_to_baseunit = True)
 
 def read_file(file: str) -> str:
     with open(file, "r") as file_obj:
@@ -20,7 +17,6 @@ def read_file(file: str) -> str:
 parameters = []
 {% for parameter in parameters %}
 ### {{ parameter.description }}
-{{ parameter.variable }} = {{ parameter.value }} * u('{{ parameter.unit }}')
 
 parameter = {}
 parameter["description"] = "{{ parameter.description }}"
@@ -35,7 +31,6 @@ parameters.append(parameter)
 constants = []
 {% for constant in constants %}
 ### {{ constant.description }}
-{{ constant.variable }} = {{ constant.value }} * u('{{ constant.unit }}')
 
 constant = {}
 constant["description"] = "{{ constant.description }}"
@@ -99,12 +94,10 @@ references.append("{{ reference }}")
 {% endfor %}
 
 ## Other string fields
-name = f"""{{ name }}"""
-description = f"""{{ description }}"""
-problemStatement_txt = f"""{{ problemStatement_txt }}"""
-assumptions_txt = f"""{{ assumptions_txt }}"""
+name = r"""{{ name }}"""
+description = r"""{{ description }}"""
+problemStatement_txt = r"""{{ problemStatement_txt }}"""
 schematic_txt = r"""{{ schematic_txt }}"""
-comments_txt = f"""{{ comments_txt }}"""
 
 model_with_merged_imports = {
 "name": name,
