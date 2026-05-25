@@ -7,8 +7,9 @@
 # - Fundamentals of Heat and Mass Transfer, 6e, p.261-263
 #
 
-from math import pi, log, exp, cos, sin
 from pint import UnitRegistry
+from math import pi, log, exp, cos, sin
+from sympy import sympify, latex
 from scipy.interpolate import interp1d
 import json
 
@@ -53,15 +54,12 @@ references.append("{{ reference }}")
 ## Other string fields
 name = f"""{{ name }}"""
 description = f"""{{ description }}"""
-problemStatement_txt = f"""{{ problemStatement_txt }}"""
-assumptions_txt = f"""{{ assumptions_txt }}"""
 schematic_txt = f"""{{ schematic_txt }}"""
-comments_txt = f"""{{ comments_txt }}"""
 
 analysis_results = {
 "name": name,
 "description": description,
-"problemStatement_txt": problemStatement_txt,
+"problemStatement_txt": "",
 "assumptions": assumptions,
 "schematic_txt": schematic_txt,
 "results": [],
@@ -72,6 +70,7 @@ analysis_results = {
 ## Perform initial-boundary value problem
 
 {% for computation in analysis %}
+### {{ computation.description }}
 {{ computation.variable }} = {{ computation.expression }}
 {% if computation.unit %}
 {{ computation.variable }}.ito('{{ computation.unit }}')
@@ -81,11 +80,23 @@ computation_list_item = {
     "computation": "",
 }
 description = "{{ computation.description }}"
-computation = "{{ computation.variable }} = {{ computation.expression }} = {0}".format({{ computation.variable }})
+try:
+    latex_expression = "${}$".format(latex(sympify("{{ computation.expression }}")))
+except:
+    latex_expression = "{{ computation.expression }}"
+
+try:
+    computation_result = "${:L}$".format({{ computation.variable }})
+except:
+    computation_result = {{ computation.variable }}
+computation = "{{ computation.variable }} = {0} = {1}".format(latex_expression, computation_result)
 computation_list_item["description"] = description
 computation_list_item["computation"] = computation
 analysis_results["results"].append(computation_list_item)
 {% endfor %}
+
+problemStatement_txt = f"""{{ problemStatement_txt }}"""
+analysis_results["problemStatement_txt"] = problemStatement_txt
 
 print(json.dumps(analysis_results, indent=2))
 
