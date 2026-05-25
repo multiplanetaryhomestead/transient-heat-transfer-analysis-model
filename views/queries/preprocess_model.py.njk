@@ -45,6 +45,13 @@ constant["unit"] = "{{ constant.unit }}"
 constants.append(constant)
 {% endfor %}
 
+## Assumptions
+
+assumptions = []
+{% for assumption in assumptions %}
+assumptions.append("{{ assumption }}")
+{% endfor %}
+
 ## Analysis to be performed
 analysis = []
 {% for computation in analysis %}
@@ -77,6 +84,20 @@ analysis.append(computation)
 
 {% endfor %}
 
+## comments
+
+comments = []
+{% for comment in comments %}
+comments.append("{{ comment }}")
+{% endfor %}
+
+## references
+
+references = []
+{% for reference in references %}
+references.append("{{ reference }}")
+{% endfor %}
+
 ## Other string fields
 name = f"""{{ name }}"""
 description = f"""{{ description }}"""
@@ -89,12 +110,13 @@ model_with_merged_imports = {
 "name": name,
 "description": description,
 "problemStatement_txt": problemStatement_txt,
-"assumptions_txt": assumptions_txt,
+"assumptions": assumptions,
 "parameters": parameters,
 "constants": constants,
 "schematic_txt": schematic_txt,
 "analysis": analysis,
-"comments_txt": comments_txt
+"comments": comments,
+"references": references
 }
 
 print(yaml.dump(model_with_merged_imports, indent=2))

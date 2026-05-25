@@ -110,7 +110,7 @@ tasks.register('validateModelExamples') {
         }.each { file ->
             exec {
                 //commandLine "echo", "$unifiedSchemaBuildPath"
-                commandLine "linkml-validate", "-s", "$unifiedSchemaBuildPath", "--target-class", "Example", "$modelExamplesBuildDir/$file.name"
+                commandLine "linkml-validate", "-s", "$unifiedSchemaBuildPath", "--target-class", "InitialBoundaryValueProblem", "$modelExamplesBuildDir/$file.name"
             }
         }
     }

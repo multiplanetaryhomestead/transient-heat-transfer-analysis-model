@@ -1,0 +1,2 @@
+description: Abstract base class used by classes that can own a reference
+slots: ((slots.yaml))
