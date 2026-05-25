@@ -6,7 +6,9 @@
 
 ## Assumptions
 
-{{ assumptions_txt }}
+{% for assumption in assumptions %}
+- {{ assumption }}
+{% endfor %}
 
 ## Schematic
 
@@ -23,5 +25,12 @@
 
 ## Comments
 
-{{ comments_txt }}
+{% for comment in comments %}
+- {{ comment }}
+{% endfor %}
 
+## References
+
+{% for reference in references %}
+- {{ reference }}
+{% endfor %}

@@ -28,6 +28,29 @@ u = UnitRegistry(autoconvert_offset_to_baseunit = True)
 {{ constant.variable }} = {{ constant.value }} * u('{{ constant.unit }}')
 {% endfor %}
 
+## Assumptions
+
+assumptions = []
+{% for assumption in assumptions %}
+assumptions.append("{{ assumption }}")
+{% endfor %}
+
+
+## comments
+
+comments = []
+{% for comment in comments %}
+comments.append("{{ comment }}")
+{% endfor %}
+
+## references
+
+references = []
+{% for reference in references %}
+references.append("{{ reference }}")
+{% endfor %}
+
+## Other string fields
 name = f"""{{ name }}"""
 description = f"""{{ description }}"""
 problemStatement_txt = f"""{{ problemStatement_txt }}"""
@@ -39,10 +62,11 @@ analysis_results = {
 "name": name,
 "description": description,
 "problemStatement_txt": problemStatement_txt,
-"assumptions_txt": assumptions_txt,
+"assumptions": assumptions,
 "schematic_txt": schematic_txt,
 "results": [],
-"comments_txt": comments_txt
+"comments": comments,
+"references": references
 }
 
 ## Perform initial-boundary value problem
