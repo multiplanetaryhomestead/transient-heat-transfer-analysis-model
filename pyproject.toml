@@ -1,5 +1,5 @@
 [project]
-name = "transient-heat-transfer-analysis-model"
+name = "transient-conduction-model"
 version = "0.0.0"
 description = "Demo m30ml project for conducting a transient heat transfer analysis"
 readme = "README.md"

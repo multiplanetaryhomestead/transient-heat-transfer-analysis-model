@@ -1,4 +1,4 @@
-# transient-heat-transfer-analysis-model
+# transient-conduction-model
 
 Demo m30ml project for conducting a transient heat transfer analysis
 
@@ -14,8 +14,8 @@ Demo m30ml project for conducting a transient heat transfer analysis
 ### Clone and `cd` into repo
 
 ```bash
-git clone https://github.com/multiplanetaryhomestead/transient-heat-transfer-analysis-model.git
-cd transient-heat-transfer-analysis-model/
+git clone https://github.com/multiplanetaryhomestead/transient-conduction-model.git
+cd transient-conduction-model/
 ```
 
 ### Install dependencies
@@ -36,5 +36,5 @@ npm run build
 
 ```bash
 cd path/to/your/project
-npm install git+https://github.com/multiplanetaryhomestead/transient-heat-transfer-analysis-model.git
+npm install git+https://github.com/multiplanetaryhomestead/transient-conduction-model.git
 ```

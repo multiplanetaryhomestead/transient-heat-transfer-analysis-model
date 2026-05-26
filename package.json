@@ -1,5 +1,5 @@
 {
-  "name": "transient-heat-transfer-analysis-model",
+  "name": "transient-conduction-model",
   "version": "0.0.0",
   "description": "Demo m30ml project for conducting a transient heat transfer analysis",
   "author": "Sean Marquez",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/multiplanetaryhomestead/transient-heat-transfer-analysis-model.git"
+    "url": "https://github.com/multiplanetaryhomestead/transient-conduction-model.git"
   },
   "workspaces": [
     "./packages/*",
