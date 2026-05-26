@@ -1,2 +1,3 @@
 description: A fully descriptive name of a quantity
+required: true
 close_mappings: ((close_mappings.yaml))
