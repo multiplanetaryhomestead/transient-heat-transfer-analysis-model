@@ -1,4 +1,5 @@
 Element: ((Element/_this.yaml))
+ImportElement: ((ImportElement/_this.yaml))
 QuantifiableElement: ((QuantifiableElement/_this.yaml))
 Quantity: ((Quantity/_this.yaml))
 Parameter: ((Parameter/_this.yaml))

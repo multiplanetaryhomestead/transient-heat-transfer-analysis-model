@@ -1,0 +1,3 @@
+is_a: Element
+description: Represents an element imported from a package
+slots: ((slots.yaml))

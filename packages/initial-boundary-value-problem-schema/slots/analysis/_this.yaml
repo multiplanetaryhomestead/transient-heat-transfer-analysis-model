@@ -1,4 +1,6 @@
 description: Ordered list of computations used for conducting a initial-boundary value problem
 multivalued: true
 inlined_as_list: true
-range: ClosedFormSolution
+any_of:
+  - range: ClosedFormSolution
+  - range: ImportElement
